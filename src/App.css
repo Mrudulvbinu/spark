@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}body {
+  transform: scale(0.7); /* Shrink content by 30% */
+  transform-origin: top center; /* Ensures scaling is from the top-center of the page */
+}
+
+html, body {
+  height: 100%; /* Ensure body fills the viewport */
+  overflow-x: hidden; /* Avoid horizontal scrolling due to scaling */
+}

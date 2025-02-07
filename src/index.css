@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@keyframes airplaneMove {
+  0% {
+    left: -15%; /* Starts from outside the screen */
+  }
+  100% {
+    left: 100%; /* Moves all the way to the right */
+  }
+}
+
+.airplane-animation {
+  animation: airplaneMove 15s linear infinite;
+}
