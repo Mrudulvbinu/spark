@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
 import Header from "/src/components/header.jsx";
 
 const Tregpg = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); // This ensures the page starts at the top when it loads
+  }, []);
   const [teamSize, setTeamSize] = useState(1);
   const [members, setMembers] = useState([{}]);
   const [hasParticipated, setHasParticipated] = useState(null);
@@ -50,10 +53,10 @@ const Tregpg = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen">
+    <div className="relative flex flex-col min-h-screen">
       {/* Background video */}
       <video
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="flexbox top-0 left-0 w-full h-full object-cover z-0"
         autoPlay
         loop
         muted
@@ -70,10 +73,9 @@ const Tregpg = () => {
         <source src={vid1} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="transform scale-80 relative z-10 container mx-auto p-4">
-        <div className="w-full">
+      <div className="w-full transform scale-80 relative z-10 container mx-auto p-1">
           <Header />
-        </div>
+        
         <form
           onSubmit={handleSubmit}
           className="bg-white shadow-lg rounded-lg p-8 space-y-6 max-w-3xl mx-auto"

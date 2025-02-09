@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
 import Header from "/src/components/header.jsx";
 
 const Vregpg = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []);
   const [hasParticipated, setHasParticipated] = useState(null);
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState("");
@@ -29,7 +32,7 @@ const Vregpg = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Form submitted");
-    // You can handle the file upload here
+    
   };
 
   return (

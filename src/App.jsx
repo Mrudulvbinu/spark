@@ -7,6 +7,7 @@ import Tregpg from './studentpages/Tregpg.jsx';
 import Vregpg from './studentpages/Vregpg.jsx';
 import Login from './Login.jsx';
 import Regist from './Regist.jsx';
+import About from './About.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/regist" element={<Regist />} />
         <Route path="/ohome" element={<Ohome />} />
         <Route path="/ahome" element={<Ahome />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

@@ -1,251 +1,105 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import img from "/src/assets/im1.jpg";
+import img from "/src/assets/img3.jpg";
+import Headerbar from "/src/components/headerbar.jsx";
+import Navbar from "/src/components/navbar.jsx";
+import Footer from "/src/components/footer.jsx";
+
 function Ohome() {
   return (
-    <section className="w-full mx-auto p-8" 
-    style={{
-      backgroundImage: `url(${img})`,  
-      backgroundSize: 'cover',         
-      backgroundPosition: 'center',    
-      backgroundAttachment: 'fixed'    
-    }}>
-      <h2 className="text-6xl font-bold text-center text-white mt-5 mb-10">Conduct Team Hackathon</h2>
+    <div className="relative text-white">
+          <div className="absolute inset-0 z-[-1]">
+            <div
+              className="h-full w-full bg-cover bg-center bg-fixed"
+              style={{
+                backgroundImage: `url(${img})`,
+              }}
+            >
+              <div className="absolute inset-0 bg-black opacity-30"></div>
+            </div>
+          </div>
 
-      {/* First Row of Cards */}
-      <div className="flex space-x-12 justify-center">
-        
-        {/* First Event Card */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">ProHack 2k25</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> March 15th, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> Spark Tech, InfoPark Cochin</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 10,000</p>
-            <p><strong className="font-semibold">Rules:</strong> Teams of 2-5 participants. All ideas must be tech-driven.</p>
-          </div>
-          <div className="text-center">
-            <Link to="/tregpg">
-              <button className="w-full bg-blue-700 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-blue-800 transition-colors">
-                REGISTER
-              </button>
-            </Link>
-          </div>
-        </div>
+      <div className="w-full"><Headerbar /></div>
+      <div className="w-full"><Navbar /></div>
 
-        {/* Second Event Card */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">Hackat25</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> February 22nd, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> Cobol, InfoPark Cochin</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 5000</p>
-            <p><strong className="font-semibold">Rules:</strong> Teams of 2-4 participants. All ideas must be tech-driven.</p>
-          </div>
-          <div className="text-center">
-            <Link to="/tregpg">
-              <button className="w-full bg-blue-700 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-blue-800 transition-colors">
-                REGISTER
-              </button>
-            </Link>
-          </div>
-        </div>
+      <h2 className="text-5xl font-bold text-center text-white mt-15 mb-20">Conduct Team Hackathon and Virtual Solo Hackathon</h2>
 
-        {/* Third Event Card */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">Codearth</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> February 12th, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> Freston, CyberPark, Kozhikode</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 12000</p>
-            <p><strong className="font-semibold">Rules:</strong> Teams of 2-5 participants. All ideas must be tech-driven.</p>
+      {/* Host Event Card */}
+      <div className="transform scale-85 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-center">
+        {/* Host Event Card */}
+        <Link to="/hosthk" className="w-full flex justify-center">
+          <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all">
+            <h2 className="text-3xl font-bold text-cyan-900">HOST EVENT</h2>
           </div>
-          <div className="text-center">
-            <Link to="/tregpg">
-              <button className="w-full bg-blue-700 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-blue-800 transition-colors">
-                REGISTER
-              </button>
-            </Link>
-          </div>
-        </div>
+        </Link>
 
-        {/* Fourth Event Card */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">FlagHack</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> March 25th, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> GitzTech, InfoPark Cochin</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 8,000</p>
-            <p><strong className="font-semibold">Rules:</strong> Teams of 2-5 participants. All ideas must be tech-driven.</p>
+        {/* Review and Approve Proposals Card */}
+        <Link to="/revappro" className="w-full flex justify-center">
+          <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all">
+            <h2 className="text-2xl font-bold text-blue-900">Review and Approve Proposals</h2>
           </div>
-          <div className="text-center">
-            <Link to="/tregpg">
-              <button className="w-full bg-blue-700 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-blue-800 transition-colors">
-                REGISTER
-              </button>
-            </Link>
+        </Link>
+
+        {/* Approved and Rejected Proposals Card */}
+        <Link to="/approrej" className="w-full flex justify-center">
+          <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all">
+            <h2 className="text-2xl font-bold text-slate-600">Approved and Rejected Proposals</h2>
           </div>
-        </div>
+        </Link>
       </div>
 
-      <h2 className="text-6xl font-bold text-center text-white mt-50">Conduct Virtual Solo Hackathons</h2>
-      {/* Second Row of Cards */}
-      <div className="flex space-x-12 justify-center mt-8">
-        
-        {/* First Event Card (Second Row) */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">ProHack 2k25</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> March 15th, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> Hackerearth.com</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 10,000</p>
-            <p><strong className="font-semibold">Rules:</strong> All ideas must be tech-driven.</p>
-          </div>
-          <div className="text-center">
-            <Link to="/vregpg">
-              <button className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-green-700 transition-colors">
-                REGISTER
-              </button>
-            </Link>
-          </div>
-        </div>
+      {/* Spacing between sections */}
+      <div className="mt-12"></div>
 
-        {/* Second Event Card (Second Row) */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">Hackat25</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> February 22nd, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> Microsoft Teams</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 5000</p>
-            <p><strong className="font-semibold">Rules:</strong> All ideas must be tech-driven.</p>
-          </div>
-          <div className="text-center">
-            <Link to="/vregpg">
-              <button className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-green-700 transition-colors">
-                REGISTER
-              </button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Third Event Card (Second Row) */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">Codearth</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> February 12th, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> Google Meet</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 12000</p>
-            <p><strong className="font-semibold">Rules:</strong> All ideas must be tech-driven.</p>
-          </div>
-          <div className="text-center">
-            <Link to="/vregpg">
-              <button className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-green-700 transition-colors">
-                REGISTER
-              </button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Fourth Event Card (Second Row) */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4">
-          <h2 className="text-3xl font-bold text-center text-gray-800">FlagHack</h2>
-          <div className="space-y-2">
-            <p><strong className="font-semibold">Date:</strong> March 25th, 2025</p>
-            <p><strong className="font-semibold">Location:</strong> Hackerearth.com</p>
-            <p><strong className="font-semibold">Prize:</strong> INR 8,000</p>
-            <p><strong className="font-semibold">Rules:</strong> All ideas must be tech-driven.</p>
-          </div>
-          <div className="text-center">
-            <Link to="/vregpg">
-              <button className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-green-700 transition-colors">
-                REGISTER
-              </button>
-            </Link>
-          </div>
-        </div>
+     {/* Upcoming Events */}
+<h2 className="text-6xl font-bold text-center text-white mt-20 mb-8">Upcoming Events</h2>
+<div className="transform scale-85 flex flex-col space-y-6 justify-center">
+  {[ 
+    { title: "CodeRed 2025", date: "4/4/2025", details: "Additional details about the event can go here.", status: "Students Registered - 200" },
+    { title: "Hackat25", date: "12/5/2025", details: "Details for this event. Aligned neat and readable.", status: "Students Registered - 120" },
+    { title: "Project25", date: "2/3/2025", details: "Any extra details about this event go here, modified automatically.", status: "Students Registered - 55" }
+  ].map((event, index) => (
+    <div key={index} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex flex-col sm:flex-row justify-between items-center">
+      <div className="flex-1 text-left">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">{event.title}</h2>
       </div>
-
-
-{/*Upcoming Events */}
-<h2 className="text-6xl font-bold text-center text-white mt-50">Upcoming Events</h2>
-<div className="flex flex-col space-y-8 justify-center mt-8">
-  {/* First upcoming Event */}
-  <div className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
-    <div className="flex-1 text-left">
-      <h2 className="text-2xl font-semibold text-gray-800">CodeRed 2025</h2>
+      <div className="flex-1 text-left sm:ml-4 ml-2">
+        <p className="text-gray-600">{event.date}</p>
+      </div>
+      <div className="flex-1 text-left sm:ml-4 ml-2">
+        <p className="text-gray-600">{event.details}</p>
+      </div>
+      <div className="flex-none text-right ml-4 flex flex-col sm:flex-row items-end">
+      <p className="text-gray-600">{event.status}</p>
+      </div>
     </div>
-    <div className="flex-1 text-left ml-4">
-      <p className="text-gray-600">Additional details about the event can go here.</p>
-    </div>
-    <div className="flex-none text-right ml-4">
-      <p className="text-gray-600">Proposal - Accepted</p>
-    </div>
-  </div>
-
-  {/* Second upcoming Event */}
-  <div className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
-    <div className="flex-1 text-left">
-      <h2 className="text-2xl font-semibold text-gray-800">Hackat25</h2>
-    </div>
-    <div className="flex-1 text-left ml-4">
-      <p className="text-gray-600">Details for this event. Aligned neat and readable.</p>
-    </div>
-    <div className="flex-none text-right ml-4">
-      <p className="text-gray-600">Proposal - Rejected</p>
-    </div>
-  </div>
-
-  {/* Third Upcoming Event */}
-  <div className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
-    <div className="flex-1 text-left">
-      <h2 className="text-2xl font-semibold text-gray-800">Project25</h2>
-    </div>
-    <div className="flex-1 text-left ml-4">
-      <p className="text-gray-600">Any extra details about this event go here.</p>
-    </div>
-    <div className="flex-none text-right ml-4">
-      <p className="text-gray-600">Proposal - Accepted</p>
-    </div>
-  </div>
+  ))}
 </div>
 
 
-{/* Participated Events */}
-<h2 className="text-6xl font-bold text-center text-white mt-60">Participated Events</h2>
-<div className="flex flex-col space-y-8 justify-center mt-8">
-  {/* First Participated Event Card */}
-  <div className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
-    <div className="flex-1 text-left">
-      <h2 className="text-2xl font-semibold text-gray-800">Participated in CodeRed 2024</h2>
-    </div>
-    <div className="flex-2 text-left ml-4">
-      <p className="text-gray-600">Additional details about the event can go here. Clean and centered layout.</p>
-    </div>
-  </div>
-
-  {/* Second Participated Event Card */}
-  <div className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
-    <div className="flex-1 text-left">
-      <h2 className="text-2xl font-semibold text-gray-800">Participated in Hackat24</h2>
-    </div>
-    <div className="flex-2 text-left ml-4">
-      <p className="text-gray-600">Details for this event. Aligned in a way that looks neat and readable.</p>
-    </div>
-  </div>
-
-  {/* Third Participated Event Card */}
-  <div className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
-    <div className="flex-1 text-left">
-      <h2 className="text-2xl font-semibold text-gray-800">Participated in Project24</h2>
-    </div>
-    <div className="flex-2 text-left ml-4">
-      <p className="text-gray-600">Any extra details about this event go here. Ensuring alignment for uniformity.</p>
-    </div>
-  </div>
-</div>
-
-
-    </section>
+      {/* Conducted Events */}
+      <h2 className="text-6xl font-bold text-center text-white mt-20 mb-8">Conducted Events</h2>
+      <div className="transform scale-85 flex flex-col space-y-6 justify-center">
+        {[ 
+          { title: "CodeRed 2024", date: "22/12/2024", details: "Additional details about the event can go here." },
+          { title: "Hackat24", date: "12/8/2024", details: "Details for this event. Aligned neat and readable." },
+          { title: "Project24", date: "1/11/2024", details: "Any extra details about this event go here, uniformity." }
+        ].map((event, index) => (
+          <div key={index} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
+            <div className="flex-1 text-left">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">{event.title}</h2>
+            </div>
+            <div className="flex-1 text-left ml-4">
+              <p className="text-gray-600">{event.date}</p>
+            </div>
+            <div className="flex-1 text-left ml-4">
+              <p className="text-gray-600">{event.details}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="w-full"><Footer /></div>
+      </div>
   );
 }
 

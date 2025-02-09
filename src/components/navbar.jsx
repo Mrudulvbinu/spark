@@ -5,8 +5,9 @@ import { Link as ScrollLink } from 'react-scroll'; // Importing react-scroll's L
 
 const Navbar = () => {
   const navigate = useNavigate(); // For programmatically navigating
+  
   const handleLogout = () => {
-    // Perform any logout operations, if needed
+    // Logout functionality (for now, it just navigates to the home page)
     navigate('/');
   };
 
@@ -17,9 +18,16 @@ const Navbar = () => {
         <div className="logo">
           <img src={logo} alt="Spark Venture Logo" className="w-40 h-auto" />
         </div>
+        
         {/* Links */}
         <ul className="flex space-x-4 sm:space-x-6 text-green-800 text-sm sm:text-base">
-          <li><Link to="#about">About</Link></li>
+          {/* Corrected About link using react-router's Link */}
+          <li>
+            <Link to="/about" className="hover:text-green-600 font-semibold">
+              About
+            </Link>
+          </li>
+          
           <li>
             <ScrollLink 
               to="contact" 
@@ -29,7 +37,8 @@ const Navbar = () => {
             >
               Contact
             </ScrollLink>
-          </li> 
+          </li>
+
           <li>
             <button 
               onClick={handleLogout} 

@@ -3,7 +3,7 @@ import airplane from '../assets/airplane.gif';
 
 const Headerbar = () => {
   return (
-    <header className="text-center bg-cyan-800 py-4 text-white mb-0">
+    <header className="text-center bg-sky-900 py-4 text-white mb-0">
       <h1 className="text-3xl sm:text-4xl font-bold">Spark Venture</h1>
       <p className="mt-4 text-sm sm:text-base">Welcome to the Spark Venture. Register now and join the innovation!</p>
       {/* Airplane */}
