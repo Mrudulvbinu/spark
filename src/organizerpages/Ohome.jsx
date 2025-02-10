@@ -41,7 +41,7 @@ function Ohome() {
         </Link>
 
         {/* Approved and Rejected Proposals Card */}
-        <Link to="/approrej" className="w-full flex justify-center">
+        <Link to="/approreg" className="w-full flex justify-center">
           <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all">
             <h2 className="text-2xl font-bold text-slate-600">Approved and Rejected Proposals</h2>
           </div>

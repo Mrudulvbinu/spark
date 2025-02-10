@@ -9,8 +9,8 @@ import Vregpg from './studentpages/Vregpg.jsx';
 import Ohome from './organizerpages/Ohome.jsx';
 import Hosthk from './organizerpages/hosthk.jsx';
 import Revappro from './organizerpages/revappro.jsx';
-//import Approrej from './organizerpages/approrej.jsx';
-//import Ahome from './adminpages/Ahome.jsx';
+import Approreg from './organizerpages/approreg.jsx';
+import Ahome from './adminpages/Ahome.jsx';
 
 
 
@@ -27,8 +27,8 @@ function App() {
         <Route path="/ohome" element={<Ohome />} />
         <Route path="/hosthk" element={<Hosthk />} />
         <Route path="/revappro" element={<Revappro />} />
-        {/*<Route path="/approrej" element={<Approrej />} />
-        <Route path="/ahome" element={<Ahome />} />*/}
+        <Route path="/approreg" element={<Approreg />} />
+        <Route path="/ahome" element={<Ahome />} />
         
       </Routes>
     </Router>

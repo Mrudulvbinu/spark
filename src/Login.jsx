@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
 import Header from "/src/components/header.jsx";
+import adminSVG from "/src/assets/admin.svg"; // Add your admin SVG path here
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -10,22 +11,35 @@ const Login = () => {
   const [error, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [userType, setUserType] = useState("student"); // Default to student
+  const [isAdminLogin, setIsAdminLogin] = useState(false); // For toggling admin login
   const navigate = useNavigate();
 
   const handleLogin = (event) => {
     event.preventDefault();
 
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+    let storedUsers = [];
+    if (isAdminLogin) {
+      // Admin login - separate array for admins
+      storedUsers = JSON.parse(localStorage.getItem("admins")) || [];
+    } else {
+      // Student or organizer login
+      storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+    }
 
     const user = storedUsers.find(
-      (user) => user.username === username && user.password === password && user.userType === userType
+      (user) =>
+        user.username === username &&
+        user.password === password &&
+        (isAdminLogin ? user.userType === "admin" : user.userType === userType)
     );
 
     if (user) {
       setSuccessMessage("Login successful! Redirecting...");
       setTimeout(() => {
         // Redirect based on user type
-        if (userType === "student") {
+        if (isAdminLogin) {
+          navigate("/ahome"); // For Admins
+        } else if (userType === "student") {
           navigate("/shome"); // For students
         } else if (userType === "organizer") {
           navigate("/ohome"); // For organizers
@@ -34,6 +48,11 @@ const Login = () => {
     } else {
       setErrorMessage("Invalid username or password!");
     }
+  };
+
+  const handleAdminClick = () => {
+    setIsAdminLogin(true);
+    setUserType("admin"); // For admin, no need for student/organizer toggle
   };
 
   return (
@@ -49,29 +68,31 @@ const Login = () => {
         <div className="w-full"><Header /></div>
 
         {/* Login Form Container with Translucent and Blurred Background */}
-        <div className="relative z-20 w-full max-w-sm md:max-w-sm lg:max-w-md px-2 py-2 sm:px-8 sm:py-10 bg-white bg-opacity-100 backdrop-blur-xl rounded-lg shadow-xl mt-1 lg:mt-1">
+        <div className="relative z-20 w-full max-w-sm md:max-w-sm lg:max-w-md px-2 py-2 sm:px-8 sm:py-10 transition-all bg-white backdrop-blur rounded-lg shadow-xl mt-1 lg:mt-1">
           {/* Form content */}
           <form onSubmit={handleLogin} className="space-y-6">
             <h1 className="text-l sm:text-2xl font-bold text-center text-gray-900 mb-1">
-              {userType === "student" ? "Student Login" : "Organizer Login"}
+              {isAdminLogin ? "Admin Login" : userType === "student" ? "Student Login" : "Organizer Login"}
             </h1>
 
-            {/* Toggle between Student and Organizer */}
-            <div className="text-center mb-2">
-              <button
-                onClick={() => setUserType("student")}
-                className={`px-2 py-2 mr-4 ${userType === "student" ? "text-blue-600" : "text-gray-700"}`}
-              >
-                Student
-              </button>
-              <span>|</span>
-              <button
-                onClick={() => setUserType("organizer")}
-                className={`px-4 py-2 ml-4 ${userType === "organizer" ? "text-blue-600" : "text-gray-700"}`}
-              >
-                Organizer
-              </button>
-            </div>
+            {/* Toggle between Student, Organizer, and Admin */}
+            {!isAdminLogin && (
+              <div className="text-center mb-2">
+                <button
+                  onClick={() => setUserType("student")}
+                  className={`px-2 py-2 mr-4 ${userType === "student" ? "text-blue-600" : "text-gray-700"}`}
+                >
+                  Student
+                </button>
+                <span>|</span>
+                <button
+                  onClick={() => setUserType("organizer")}
+                  className={`px-4 py-2 ml-4 ${userType === "organizer" ? "text-blue-600" : "text-gray-700"}`}
+                >
+                  Organizer
+                </button>
+              </div>
+            )}
 
             {/* Username */}
             <div className="flex items-center space-x-4">
@@ -123,18 +144,34 @@ const Login = () => {
               </button>
             </div>
 
+            
+
             {/* New User Registration */}
-            <div className="text-center mt-4">
-              <p className="text-gray-700">
-                New User?{" "}
-                <a
-                  href="/regist"
-                  className="text-blue-500 hover:text-blue-700 font-semibold"
-                >
-                  Register Here
-                </a>
-              </p>
-            </div>
+            {!isAdminLogin && (
+              <div className="text-center mt-4">
+                <p className="text-gray-700">
+                  New User?{" "}
+                  <a
+                    href="/regist"
+                    className="text-blue-500 hover:text-blue-700 font-semibold"
+                  >
+                    Register Here
+                  </a>
+                </p>
+              </div>
+              )}
+              {/* Admin SVG Icon */}
+            {!isAdminLogin && (
+              <div className="text-center mt-4 mb-0">
+                <img
+                  src={adminSVG}
+                  alt="Admin Login"
+                  className="cursor-pointer w-3 h-3 mx-auto"
+                  onClick={handleAdminClick}
+                />
+              </div>
+            )}
+            
           </form>
         </div>
 
