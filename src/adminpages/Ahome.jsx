@@ -22,7 +22,7 @@ function Ahome() {
     switch (selectedContent) {
       case 'Dashboard':
         return (
-          <div className={`p-6 bg-${darkMode ? 'gray-800' : 'white'} text-${darkMode ? 'white' : 'black'}`}>
+          <div className="p-6 text-${darkMode ? 'white' : 'black'">
             Dashboard Content
           </div>
         );
@@ -30,40 +30,40 @@ function Ahome() {
         return (
           <div className="flex flex-col md:flex-row gap-6">
             {/* Left Panel: Registered Users */}
-            <div className={`w-full md:w-1/2 p-4 shadow-lg rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-white'}`}>
+            <div className={`w-full md:w-1/2 p-4 shadow-lg rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               <h2 className={`text-2xl font-semibold mb-4 text-${darkMode ? 'white' : 'black'}`}>Registered Users</h2>
-              <div className={`space-y-4 text-${darkMode ? 'gray-300' : 'black'}`}>
+              <div className={`space-y-4 text-${darkMode ? 'white' : 'black'}`}>
                 <div className="flex justify-between">
                   <span className="font-medium">John Doe</span>
-                  <span className="text-gray-600">johndoe</span>
+                  <span className="font-small">johndoe</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Jane Smith</span>
-                  <span className="text-gray-600">janesmith</span>
+                  <span className="font-small">janesmith</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Sam Johnson</span>
-                  <span className="text-gray-600">samjohnson</span>
+                  <span className="font-small">samjohnson</span>
                 </div>
                 {/* Add more users here */}
               </div>
             </div>
 
             {/* Right Panel: Organizers */}
-            <div className={`w-full md:w-1/2 p-4 shadow-lg rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-white'}`}>
+            <div className={`w-full md:w-1/2 p-4 shadow-lg rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               <h2 className={`text-2xl font-semibold mb-4 text-${darkMode ? 'white' : 'black'}`}>Organizers</h2>
-              <div className={`space-y-4 text-${darkMode ? 'gray-300' : 'black'}`}>
+              <div className={`space-y-4 text-${darkMode ? 'white' : 'black'}`}>
                 <div className="flex justify-between">
                   <span className="font-medium">Alice Cooper</span>
                   <span className="font-small">alicecooper</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Bob Martin</span>
-                  <span className="text-gray-600">bobmartin</span>
+                  <span className="font-small">bobmartin</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Charlie Brown</span>
-                  <span className="text-gray-600">charliebrown</span>
+                  <span className="font-small">charliebrown</span>
                 </div>
                 {/* Add more organizers here */}
               </div>
@@ -100,19 +100,19 @@ function Ahome() {
         
               {/* Settings Pills */}
               <div className="space-y-4">
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-black'}`}>
+                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
                   <span>Common Setting 1</span>
                   <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 1</span>
                 </div>
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-black'}`}>
+                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
                   <span>Common Setting 2</span>
                   <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 2</span>
                 </div>
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-black'}`}>
+                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
                   <span>Common Setting 3</span>
                   <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 3</span>
                 </div>
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-black'}`}>
+                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
                   <span>Common Setting 4</span>
                   <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 4</span>
                 </div>
