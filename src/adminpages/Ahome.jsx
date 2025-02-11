@@ -11,42 +11,35 @@ function Ahome() {
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar Component */}
       <div
-        className={`bg-black text-white fixed top-16 left-0 h-full p-4 transition-all duration-300 ease-in-out z-20 ${
-          sidebarOpen ? 'w-64' : 'w-0'
-        } md:w-64 md:block md:relative`} // Ensure sidebar can collapse/expand on all screen sizes
+        className={`bg-black text-white fixed top-16 left-0 h-full transition-all duration-300 ease-in-out z-20 ${sidebarOpen ? 'w-64' : 'w-0'} md:w-64 md:block md:relative`}
       >
-        {/* Sidebar Content (Cards) */}
-        <div className="flex flex-col items-start">
-          <div className="w-full p-2 mb-4 bg-white text-black shadow-lg">
-            <h2 className="text-lg font-bold">Dashboard</h2>
-          </div>
-          <div className="w-full p-2 mb-4 bg-white text-black shadow-lg">
-            <h2 className="text-lg font-bold">Users</h2>
-          </div>
-          <div className="w-full p-2 mb-4 bg-white text-black shadow-lg">
-            <h2 className="text-lg font-bold">Settings</h2>
-          </div>
+        {/* Sidebar Content (Links) */}
+        <div className={`flex flex-col items-start space-y-4 p-4 ${sidebarOpen ? 'block' : 'hidden'} md:block md:flex`}>
+          <a href="/dashboard" className="text-white text-lg font-semibold py-2 px-4 hover:bg-gray-700 rounded-md transition-all duration-200">Dashboard</a>
+          <a href="/users" className="text-white text-lg font-semibold py-2 px-4 hover:bg-gray-700 rounded-md transition-all duration-200">Users</a>
+          <a href="/settings" className="text-white text-lg font-semibold py-2 px-4 hover:bg-gray-700 rounded-md transition-all duration-200">Settings</a>
         </div>
       </div>
 
       {/* Main Content Area */}
       <div
-        className={`flex-1 ml-0 md:ml-64 p-6 overflow-auto transition-all duration-300 ease-in-out z-10`}
+        className={`flex-1 transition-all duration-300 ease-in-out z-10 ml-0 ${sidebarOpen ? 'ml-64' : 'ml-0'} md:ml-5`}
         style={{
-          backgroundImage: 'url(/src/assets/admins.jpg)', // Background image applied here
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          marginTop: '4rem', // Push content below the fixed navbar
-          height: '100vh', // Ensure background fills the entire height of the screen
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay to darken background
+          backgroundImage: 'url(/src/assets/admins.jpg)',
+          backgroundSize: 'contain', // Keeps the image size as is
+          backgroundPosition: 'center', // Centers the image horizontally and vertically
+          backgroundRepeat: 'no-repeat',
+          padding: '2rem 2rem',
+          marginTop: 'calc(3rem + 13px)', // Adjusts for navbar height
+          minHeight: '80vh', // Ensures the content takes up full viewport height
         }}
       >
         {/* Top Navbar */}
-        <nav className="bg-amber-400 text-white flex justify-between items-center p-4 fixed w-full z-10 top-0 left-0 shadow-lg">
-          {/* Hamburger Menu Icon - Always visible on all screen sizes */}
+        <nav className="bg-amber-200 text-white flex justify-between items-center p-4 fixed w-full z-30 top-0 left-0 shadow-lg">
+          {/* Hamburger Menu Icon - Visible only on smaller screens */}
           <div
             onClick={handleSidebarToggle} // Toggle sidebar on click
-            className="cursor-pointer z-30" // Ensure button is above other elements
+            className="cursor-pointer z-30 md:hidden" // Hide on larger screens
           >
             <img
               src="/src/assets/menuu.svg"
@@ -65,7 +58,7 @@ function Ahome() {
         </nav>
 
         {/* Main Content */}
-        <div>
+        <div className="p-6">
           {/* Your content here */}
         </div>
       </div>
