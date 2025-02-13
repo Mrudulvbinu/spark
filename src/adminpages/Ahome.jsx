@@ -22,7 +22,7 @@ function Ahome() {
     switch (selectedContent) {
       case 'Dashboard':
         return (
-          <div className="p-6 text-${darkMode ? 'white' : 'black'">
+          <div className={`p-6 text-${darkMode ? 'white' : 'black'}`}>
             Dashboard Content
           </div>
         );
@@ -45,7 +45,6 @@ function Ahome() {
                   <span className="font-medium">Sam Johnson</span>
                   <span className="font-small">samjohnson</span>
                 </div>
-                {/* Add more users here */}
               </div>
             </div>
 
@@ -65,68 +64,16 @@ function Ahome() {
                   <span className="font-medium">Charlie Brown</span>
                   <span className="font-small">charliebrown</span>
                 </div>
-                {/* Add more organizers here */}
               </div>
             </div>
           </div>
         );
-        case 'Settings':
-          return (
-            <div className="space-y-6">
-              {/* Dark Mode Toggle */}
-              <div
-                className={`flex justify-between items-center p-4 rounded-full shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
-              >
-                <span className="text-lg font-semibold">Dark Mode</span>
-                <label
-                  className="inline-flex relative items-center cursor-pointer"
-                  htmlFor="darkModeSwitch"
-                >
-                  <input
-                    id="darkModeSwitch"
-                    type="checkbox"
-                    checked={darkMode}
-                    onChange={toggleDarkMode}
-                    className="sr-only"
-                  />
-                  <span
-                    className={`w-11 h-6 rounded-full ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} transition-all duration-300 ease-in-out`}
-                  ></span>
-                  <span
-                    className={`w-4 h-4 bg-white rounded-full absolute left-1 top-1 transition-all duration-300 ease-in-out ${darkMode ? 'translate-x-5' : ''}`}
-                  ></span>
-                </label>
-              </div>
-        
-              {/* Settings Pills */}
-              <div className="space-y-4">
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
-                  <span>Common Setting 1</span>
-                  <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 1</span>
-                </div>
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
-                  <span>Common Setting 2</span>
-                  <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 2</span>
-                </div>
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
-                  <span>Common Setting 3</span>
-                  <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 3</span>
-                </div>
-                <div className={`p-4 rounded-full shadow-md flex justify-between items-center ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
-                  <span>Common Setting 4</span>
-                  <span className={`${darkMode ? 'text-white' : 'text-black'}`}>Option 4</span>
-                </div>
-                
-              </div>
-            </div>
-          );
-        
       default:
         return (
           <div className="text-2xl">
             Welcome to the Admin Panel
           </div>
-        ); // Default content when no item is clicked
+        );
     }
   };
 
@@ -154,13 +101,6 @@ function Ahome() {
           >
             Users
           </a>
-          <a
-            href="#"
-            onClick={() => handleContentChange('Settings')}
-            className="text-white text-lg font-semibold py-2 px-4 hover:bg-gray-700 rounded-md transition-all duration-200"
-          >
-            Settings
-          </a>
         </div>
       </div>
 
@@ -182,7 +122,7 @@ function Ahome() {
         <nav className="bg-amber-200 text-white flex justify-between items-center p-4 fixed w-full z-30 top-0 left-0 shadow-lg">
           {/* Hamburger Menu Icon */}
           <div
-            onClick={handleSidebarToggle} 
+            onClick={handleSidebarToggle}
             className="cursor-pointer z-30 md:hidden"
           >
             <img
@@ -198,6 +138,16 @@ function Ahome() {
             <a href="/ahome" className="text-2xl">
               <img src="/src/assets/logo.png" alt="Logo" className="h-8" />
             </a>
+          </div>
+
+          {/* Lightbulb SVG for Dark Mode Toggle */}
+          <div onClick={toggleDarkMode} className="cursor-pointer">
+            <img
+              src="/src/assets/darkmode.png"
+              alt="Dark Mode Toggle"
+              width="30"
+              height="30"
+            />
           </div>
         </nav>
 

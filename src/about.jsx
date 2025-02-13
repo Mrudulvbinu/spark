@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Footer from "/src/components/footer.jsx";
-import img from '/src/assets/img2.jpg'; 
+import img from '/src/assets/img2.jpg';
+import AOS from 'aos';
+import 'aos/dist/aos.css';  // Import AOS styles
 
 const About = () => {
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, 
+      easing: 'ease-in-out',
+      once: true, 
+    });
+  }, []);
+
   return (
     <div className="relative text-white">
       <div className="absolute inset-0 z-[-1]">
@@ -17,13 +28,13 @@ const About = () => {
       </div>
 
       {/* Welcome Section */}
-      <div className="py-20 px-4 text-center">
+      <div className="py-20 px-4 text-center" data-aos="fade-up">
         <h1 className="text-6xl font-semibold">Welcome to Spark Venture</h1>
         <p className="mt-4 text-lg">Your hackathon management solution</p>
       </div>
 
       {/* What We Do Section */}
-      <div className="py-16 px-8">
+      <div className="py-16 px-8" data-aos="fade-up">
         <section className="mb-16 text-center">
           <h2 className="text-5xl font-semibold text-white">What We Do</h2>
           <p className="mt-6 text-lg text-white max-w-4xl mx-auto">
@@ -33,7 +44,7 @@ const About = () => {
       </div>
 
       {/* Features Section */}
-      <div className="py-16 px-8">
+      <div className="py-16 px-8" data-aos="fade-up">
         <section className="mb-16 text-center">
           <h2 className="text-5xl font-semibold text-white">Features</h2>
           <ul className="mt-6 space-y-6 text-lg text-white max-w-4xl mx-auto">
@@ -45,17 +56,14 @@ const About = () => {
       </div>
 
       {/* Meet The Team Section */}
-      <div className="py-16 px-8">
+      <div className="py-16 px-8" data-aos="fade-up">
         <section className="text-center">
           <h2 className="text-5xl font-semibold text-white">Meet The 'Team'</h2>
 
           <div className="flex justify-center items-center mt-8">
             <div className="relative text-center">
-              
               <img src="./src/assets/lead.jpg" alt="Mrudul V Binu" className="w-40 h-40 mx-auto rounded-full shadow-lg" />
-             
               <p className="mt-6 font-semibold text-xl text-white">Mrudul V Binu</p>
-            
               <p className="mt-2 text-lg text-gray-300">
                 Project Lead | Developer | Designer
               </p>
@@ -63,7 +71,7 @@ const About = () => {
           </div>
         </section>
       </div>
-      
+
       <div className="mt-0">
         <Footer />
       </div>
