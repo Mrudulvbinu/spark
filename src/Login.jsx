@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
@@ -13,6 +13,16 @@ const Login = () => {
   const [userType, setUserType] = useState("student"); // Default to student
   const [isAdminLogin, setIsAdminLogin] = useState(false); // For toggling admin login
   const navigate = useNavigate();
+
+  // Adding the slide up and fade-in animation after the page loads
+  useEffect(() => {
+    const loginContainer = document.getElementById("login-container");
+    loginContainer.classList.add("opacity-0", "translate-y-20");
+    setTimeout(() => {
+      loginContainer.classList.remove("opacity-0", "translate-y-20");
+      loginContainer.classList.add("transition-all", "duration-1000", "opacity-100", "translate-y-0");
+    }, 700);
+  }, []);
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -68,7 +78,10 @@ const Login = () => {
         <div className="w-full"><Header /></div>
 
         {/* Login Form Container with Translucent and Blurred Background */}
-        <div className="relative z-20 w-full max-w-sm md:max-w-sm lg:max-w-md px-2 py-2 sm:px-8 sm:py-10 transition-all bg-white backdrop-blur rounded-lg shadow-xl mt-1 lg:mt-1">
+        <div
+          id="login-container"
+          className="relative z-20 w-full max-w-sm md:max-w-sm lg:max-w-md px-2 py-2 sm:px-8 sm:py-10 bg-white backdrop-blur rounded-lg shadow-xl mt-1 lg:mt-1 transition-all"
+        >
           {/* Form content */}
           <form onSubmit={handleLogin} className="space-y-6">
             <h1 className="text-l sm:text-2xl font-bold text-center text-gray-900 mb-1">
@@ -144,8 +157,6 @@ const Login = () => {
               </button>
             </div>
 
-            
-
             {/* New User Registration */}
             {!isAdminLogin && (
               <div className="text-center mt-4">
@@ -159,8 +170,8 @@ const Login = () => {
                   </a>
                 </p>
               </div>
-              )}
-              {/* Admin SVG Icon */}
+            )}
+            {/* Admin SVG Icon */}
             {!isAdminLogin && (
               <div className="text-center mt-4 mb-0">
                 <img
@@ -171,7 +182,6 @@ const Login = () => {
                 />
               </div>
             )}
-            
           </form>
         </div>
 
