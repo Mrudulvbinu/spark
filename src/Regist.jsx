@@ -2,69 +2,36 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
+import axios from "axios";
 
 const Regist = () => {
   const [name1, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState(""); // For organizer
-  const [certificate, setCertificate] = useState(null); // For organizer
-  const [error, setErrorMessage] = useState(""); 
-  const [successMessage, setSuccessMessage] = useState(""); 
-  const [userType, setUserType] = useState("student"); 
-  const navigate = useNavigate(); 
+  const [address, setAddress] = useState("");
+  const [userType, setUserType] = useState("student");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // Function to validate password
-  function password_validate(p) { 
-    return /[A-Z]/.test(p) && /[a-z]/.test(p) && /[0-9]/.test(p) && /[@$%&*!^()#]/.test(p) && p.length >= 8; 
-  }
+  const navigate = useNavigate();
 
-  // Function to validate file upload (size under 1MB and file type pdf)
-  const validateFile = (file) => {
-    if (file) {
-      const fileSize = file.size / 1024 / 1024; // Convert to MB
-      if (fileSize > 1) {
-        setErrorMessage("File size must be less than 1MB.");
-        return false;
-      }
-      if (!file.name.endsWith(".pdf")) {
-        setErrorMessage("Please upload a PDF file.");
-        return false;
-      }
-    }
-    return true;
-  };
+  const password_validate = (p) => {
+  return /[A-Z]/.test(p) && /[a-z]/.test(p) && /[0-9]/.test(p) && /[@$%&*!^()#]/.test(p) && p.length >= 8;
+};
 
-  // Function to handle file upload
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (validateFile(file)) {
-        setCertificate(file);
-        setErrorMessage(""); // Reset error message
-      } else {
-        setCertificate(null); // Clear the file if validation fails
-      }
-    }
-  };
-
-  const handleSubmit = (event) => {
+  // Registration form submission handler
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
 
     if (!password_validate(password)) {
-      setErrorMessage("Password must be at least 8 characters long, including a mix of uppercase, lowercase, numbers, and special characters.");
+      setErrorMessage("Password must have at least 8 characters, should include uppercase, lower case, specialcharacters and numbers .");
       return;
     }
 
-    // If organizer, validate certificate file
-    if (userType === "organizer" && !certificate) {
-      setErrorMessage("Please upload the university registration certificate.");
-      return;
-    }
-
+    // Prepare user data for registration
     const userData = {
       name: name1,
       email: email,
@@ -72,7 +39,6 @@ const Regist = () => {
       password: password,
       userType: userType, 
       address: address, // For organizer
-      certificate: certificate, // For organizer
     };
 
     const existingUser = JSON.parse(localStorage.getItem("users")) || [];
@@ -84,10 +50,19 @@ const Regist = () => {
       existingUser.push(userData);
       localStorage.setItem("users", JSON.stringify(existingUser)); 
       setSuccessMessage("Registration successful! You can now login.");
-      setTimeout(() => navigate("/"), 2000); 
+      setTimeout(() => navigate("/login"), 2000); 
+
+      // Make API call to backend for registration
+      try {
+        console.log("User Data being sent to server:", userData);
+        const endpoint = userType === "student" ? "/api/auth/register/student" : "/api/auth/register/organizer";
+        const response = await axios.post(`http://localhost:5000${endpoint}`, userData);
+        setSuccessMessage(response.data.message);
+      } catch (error) {
+        setErrorMessage(error.response?.data?.error || "Something went wrong");
+      }
     }
   };
-
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${vid1})` }}>
       {/* Background Video */}
@@ -205,33 +180,8 @@ const Regist = () => {
               </div>
             )}
 
-            {/* University Registration Certificate - Only for Organizer */}
-            {userType === "organizer" && (
-              <div className="space-x-4 flex items-center">
-                <label className="w-1/3 text-lg font-semibold text-gray-700" htmlFor="certificate">
-                  University Registration Certificate (PDF)
-                </label>
-                <input 
-                  type="file" 
-                  id="certificate" 
-                  accept=".pdf"  // Restricting file input to PDF
-                  onChange={handleFileUpload} 
-                  className="w-2/3 p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                  required 
-                />
-                {/* Display PDF file name or a preview link */}
-                {certificate && (
-                  <div className="mt-2 text-gray-700">
-                    <a href={URL.createObjectURL(certificate)} target="_blank" rel="noopener noreferrer">
-                      View Certificate PDF
-                    </a>
-                  </div>
-                )}
-              </div>
-            )}
-
             {/* Error Message */}
-            {error && <div className="text-red-500 text-center mt-2">{error}</div>}
+            {errorMessage && <div className="text-red-500 text-center mt-2">{errorMessage}</div>}
 
             {/* Success Message */}
             {successMessage && (
