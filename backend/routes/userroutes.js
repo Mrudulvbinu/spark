@@ -1,12 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const { registerStudent, registerOrganizer, login } = require("../controllers/authcontroller");  // Make sure path is correct
+const verifyToken = require("../middleware/authmiddleware");
+const {
+  registerStudent,
+  registerOrganizer,
+  login,
+  adminLogin,
+} = require("../controllers/authcontroller");
+const { getStudentHackathons } = require("../controllers/registrationcontroller");
 
-// Registration routes
+// PUBLIC ROUTES
 router.post("/register/student", registerStudent);
 router.post("/register/organizer", registerOrganizer);
+router.post("/login", login);
+router.post("/admin/login", adminLogin);
 
-// Login route
-router.post("/login", login);  // Ensure it's correctly defined as /login
+// PROTECTED ROUTES
+router.get("/registered-events", verifyToken, getStudentHackathons);
+router.get("/participated-events", verifyToken, getStudentHackathons);
 
 module.exports = router;

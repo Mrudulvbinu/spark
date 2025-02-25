@@ -1,35 +1,64 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import img from "/src/assets/im1.jpg";
 import Headerbar from "/src/components/headerbar.jsx";
 import Navbar from "/src/components/navbar.jsx";
 import Footer from "/src/components/footer.jsx";
 import AOS from 'aos';
-import 'aos/dist/aos.css';  // Import AOS styles
+import 'aos/dist/aos.css';
+import axiosInstance from '../../backend/axiosinstance';
 
 function Shome() {
+  const [teamHackathons, setTeamHackathons] = useState([]);
+  const [soloHackathons, setSoloHackathons] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [participatedEvents, setParticipatedEvents] = useState([]);
+  const [showDetails, setShowDetails] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
-    AOS.init({
-      duration: 1000, // Duration of the animation
-      easing: 'ease-in-out', // Easing function for the animation
-      once: true, // Animation should only happen once
-    });
+    AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
+
+    const fetchData = async () => {
+      try {
+        const [hackathonRes, upcomingRes, participatedRes] = await Promise.all([
+          axiosInstance.get('/hackathons'),
+          axiosInstance.get('/user/registered-events?type=upcoming'),
+          axiosInstance.get('/user/participated-events?type=participated')
+        ]);
+
+        const hackathons = hackathonRes.data;
+        setTeamHackathons(hackathons.filter(event => event.typeofhk === 'Team'));
+        setSoloHackathons(hackathons.filter(event => event.typeofhk === 'Solo'));
+
+        setUpcomingEvents(upcomingRes.data);
+        setParticipatedEvents(participatedRes.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const teamHackathons = [
-    { title: "ProHack 2k25", date: "March 15th, 2025", location: "Spark Tech, InfoPark Cochin", prize: "INR 10,000", rules: "Teams of 2-5 participants. All ideas must be tech-driven.", link: "/tregpg", color: "blue-700" },
-    { title: "Hackat25", date: "February 22nd, 2025", location: "Cobol Tech, InfoPark Cochin", prize: "INR 5000", rules: "Teams of 2-4 participants. All ideas must be tech-driven.", link: "/tregpg", color: "blue-700" },
-    { title: "Codearth", date: "February 12th, 2025", location: "Freston, CyberPark, Kozhikode", prize: "INR 12000", rules: "Teams of 2-5 participants. All ideas must be tech-driven.", link: "/tregpg", color: "blue-700" },
-    { title: "FlagHack", date: "March 25th, 2025", location: "GitzTech, InfoPark Cochin", prize: "INR 8,000", rules: "Teams of 2-5 participants. All ideas must be tech-driven.", link: "/tregpg", color: "blue-700" }
-  ];
+  const handleRegister = (event) => {
+    const route = event.typeofhk === 'Team' ? `/tregpg/${event._id}` : `/vregpg/${event._id}`;
+    navigate(route);
+  };
 
-  const soloHackathons = [
-    { title: "ProHack 2k25", date: "March 15th, 2025", location: "Hackerearth.com", prize: "INR 10,000", rules: "All ideas must be tech-driven.", link: "/vregpg", color: "green-600" },
-    { title: "Hackat25", date: "February 22nd, 2025", location: "Microsoft Teams", prize: "INR 5000", rules: "All ideas must be tech-driven.", link: "/vregpg", color: "green-600" },
-    { title: "Codearth", date: "February 12th, 2025", location: "Google Meet", prize: "INR 12000", rules: "All ideas must be tech-driven.", link: "/vregpg", color: "green-600" },
-    { title: "FlagHack", date: "March 25th, 2025", location: "Hackerearth.com", prize: "INR 8,000", rules: "All ideas must be tech-driven.", link: "/vregpg", color: "green-600" }
-  ];
-  
+  const handleDetailsClick = (event) => {
+    setSelectedEvent(event);
+    setShowDetails(true);
+  };
+
+  const handleCloseDialog = () => {
+    setShowDetails(false);
+    setSelectedEvent(null);
+  };
+
+  const formatDate = (date) => new Date(date).toLocaleDateString();
 
   return (
     <section className="w-full mx-auto p-0 relative"
@@ -39,103 +68,125 @@ function Shome() {
         backgroundPosition: 'center',
         scrollBehavior: 'smooth',
         backgroundAttachment: 'fixed',
-      }}>
-
-      {/* Black tint overlay */}
+      }}
+    >
       <div className="absolute inset-0 bg-black opacity-30 z-0"></div>
 
       <div className="relative z-10">
-        <div className="w-full"><Headerbar /></div>
-        <div className="w-full"><Navbar /></div>
+        <Headerbar />
+        <Navbar />
 
-        {/* Team Hackathons Section */}
+        {/* Team Hackathons */}
         <h2 className="text-6xl font-bold text-center text-white mt-20" data-aos="fade-up">Team Hackathons</h2>
-        <div className="transform scale-85 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 justify-center" data-aos="fade-up">
-          {teamHackathons.map((event, index) => (
-            <div key={index} className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4" data-aos="fade-up">
-              <h2 className="text-3xl font-bold text-center text-gray-800">{event.title}</h2>
-              <div className="space-y-2">
-                <p><strong className="font-semibold">Date:</strong> {event.date}</p>
-                <p><strong className="font-semibold">Location:</strong> {event.location}</p>
-                <p><strong className="font-semibold">Prize:</strong> {event.prize}</p>
-                <p><strong className="font-semibold">Rules:</strong> {event.rules}</p>
+        <div className="flex flex-wrap justify-center gap-6 mt-10">
+          {teamHackathons.length > 0 ? (
+            teamHackathons.map((event) => (
+              <div key={event._id} className="bg-blue-700 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
+                <h3 className="text-2xl font-bold">{event.ename}</h3>
+                <p className="text-lg">📅 Date: {event.date}</p>
+                <p className="text-lg">📍 Venue: {event.venue}</p>
+                <p className="text-lg">🏆 Prize: {event.prize}</p>
+                <div className="flex justify-between mt-3">
+                  <button onClick={() => handleRegister(event)} className="bg-white text-blue-700 px-4 py-2 rounded-lg font-bold">Register</button>
+                  <button onClick={() => handleDetailsClick(event)} className="bg-white text-blue-700 px-4 py-2 rounded-lg font-bold">Details</button>
+                </div>
               </div>
-              <div className="text-center">
-                <Link to={event.link}>
-                  <button 
-                    className={`w-full py-3 px-6 rounded-lg font-bold text-xl transition-all ${
-                      event.color === "blue-700" ? "bg-blue-700 text-white hover:bg-blue-800" :
-                      event.color === "green-600" ? "bg-green-600 text-white hover:bg-green-700" : ""
-                    }`}>
-                    REGISTER
-                  </button>
-                </Link>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-white text-center text-xl">No team hackathons available.</p>
+          )}
         </div>
 
-        {/* Virtual Solo Hackathons Section */}
+        {/* Solo Hackathons */}
         <h2 className="text-6xl font-bold text-center text-white mt-20" data-aos="fade-up">Virtual Solo Hackathons</h2>
-        <div className="transform scale-85 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 justify-center" data-aos="fade-up">
-          {soloHackathons.map((event, index) => (
-            <div key={index} className="max-w-sm bg-white shadow-lg rounded-lg p-5 space-y-4" data-aos="fade-up">
-              <h2 className="text-3xl font-bold text-center text-gray-800">{event.title}</h2>
-              <div className="space-y-2">
-                <p><strong className="font-semibold">Date:</strong> {event.date}</p>
-                <p><strong className="font-semibold">Location:</strong> {event.location}</p>
-                <p><strong className="font-semibold">Prize:</strong> {event.prize}</p>
-                <p><strong className="font-semibold">Rules:</strong> {event.rules}</p>
+        <div className="flex flex-wrap justify-center gap-6 mt-10">
+          {soloHackathons.length > 0 ? (
+            soloHackathons.map((event) => (
+              <div key={event._id} className="bg-green-600 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
+                <h3 className="text-2xl font-bold">{event.ename}</h3>
+                <p className="text-lg">📅 Date: {event.date}</p>
+                <p className="text-lg">💻 Platform: {event.venue}</p>
+                <p className="text-lg">🏆 Prize: {event.prize}</p>
+                <div className="flex justify-between mt-3">
+                  <button onClick={() => handleRegister(event)} className="bg-white text-green-600 px-4 py-2 rounded-lg font-bold">Register</button>
+                  <button onClick={() => handleDetailsClick(event)} className="bg-white text-green-600 px-4 py-2 rounded-lg font-bold">Details</button>
+                </div>
               </div>
-              <div className="text-center">
-                <Link to={event.link}>
-                  <button className={`w-full bg-${event.color} text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-green-700 transition-colors`}>
-                    REGISTER
-                  </button>
-                </Link>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-white text-center text-xl">No solo hackathons available.</p>
+          )}
         </div>
 
-        {/* Upcoming Events Section */}
-        <h2 className="text-6xl font-bold text-center text-white mt-25" data-aos="fade-up">Upcoming Events</h2>
-        <div className="transform scale-85 flex flex-col space-y-8 justify-center mt-8">
-          {['CodeRed 2025', 'Hackat25', 'Project25'].map((event, index) => (
-            <div key={index} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center" data-aos="fade-up">
-              <div className="flex-1 text-left">
-                <h2 className="text-2xl font-semibold text-gray-800">{event}</h2>
+        <div className="w-full transform scale-80 container mx-auto p-4">
+          {/* Upcoming Registered Events */}
+          <section className="my-8">
+            <h2 className="text-3xl font-bold text-white text-center mb-4">Upcoming Registered Events</h2>
+            {upcomingEvents.length > 0 ? (
+              <div className="space-y-4">
+                {upcomingEvents.map((event) => (
+                  <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-800">{event.title}</h3>
+                      {event.members.length > 0 && (
+                        <p className="text-gray-600 text-sm"><strong>Members:</strong> {event.members.join(", ")}</p>
+                      )}
+                      <p className="text-gray-500 text-sm">Date: {formatDate(event.date)}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="flex-1 text-left ml-4">
-                <p className="text-gray-600">Additional details about the event can go here.</p>
+            ) : (
+              <p className="text-white text-center">No upcoming events registered.</p>
+            )}
+          </section>
+
+          {/* Participated Events */}
+          <section className="my-8">
+            <h2 className="text-3xl font-bold text-white text-center mb-4">Participated Events</h2>
+            {participatedEvents.length > 0 ? (
+              <div className="space-y-4">
+                {participatedEvents.map((event) => (
+                  <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-800">{event.title}</h3>
+                      {event.members.length > 0 && (
+                        <p className="text-gray-600 text-sm"><strong>Members:</strong> {event.members.join(", ")}</p>
+                      )}
+                      <p className="text-gray-500 text-sm">Date: {formatDate(event.date)}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="flex-none text-right ml-4">
-                <p className="text-gray-600">Proposal - Accepted</p>
-              </div>
-            </div>
-          ))}
+            ) : (
+              <p className="text-white text-center">No participated events.</p>
+            )}
+          </section>
         </div>
 
-        {/* Participated Events Section */}
-        <h2 className="text-6xl font-bold text-center text-white mt-35" data-aos="fade-up">Participated Events</h2>
-        <div className="transform scale-85 flex flex-col space-y-8 justify-center mt-8">
-          {['CodeRed 2024', 'Hacktober Fest'].map((event, index) => (
-            <div key={index} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center" data-aos="fade-up">
-              <div className="flex-1 text-left">
-                <h2 className="text-2xl font-semibold text-gray-800">{event}</h2>
-              </div>
-              <div className="flex-1 text-left ml-4">
-                <p className="text-gray-600">Participation details will be visible here.</p>
-              </div>
-              <div className="flex-none text-right ml-4">
-                <p className="text-gray-600">Status - Completed</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="w-full"><Footer /></div>
+        <Footer />
       </div>
+
+      {/* Event Details Dialog */}
+      {showDetails && selectedEvent && (
+        <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={handleCloseDialog}>
+          <div className="absolute inset-0" style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(5px)' }}></div>
+          <div className="absolute inset-0 bg-opacity-20"></div>
+          <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-md w-full animate-fade-zoom z-10" onClick={(e) => e.stopPropagation()}>
+            <button onClick={handleCloseDialog} className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">✖</button>
+            <h2 className="text-3xl font-bold text-center mb-4">EVENT DETAILS</h2>
+            <p className="text-lg"><strong>Name:</strong> {selectedEvent.ename}</p>
+            <p className="text-lg"><strong>Date:</strong> {selectedEvent.date}</p>
+            <p className="text-lg"><strong>{selectedEvent.typeofhk === 'Team' ? 'Venue' : 'Platform'}:</strong> {selectedEvent.venue}</p>
+            <p className="text-lg"><strong>Duration:</strong> {selectedEvent.durofhk}</p>
+            <p className="text-lg"><strong>Prize:</strong> {selectedEvent.prize}</p>
+            <p className="text-lg"><strong>Details:</strong> {selectedEvent.details}</p>
+            <div className="flex justify-center mt-6">
+              <button onClick={() => handleRegister(selectedEvent)} className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Register</button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

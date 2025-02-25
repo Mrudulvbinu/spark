@@ -11,3 +11,32 @@
 .airplane-animation {
   animation: airplaneMove 15s linear infinite;
 }
+@keyframes fadeZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeZoomOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+.animate-fade-zoom {
+  animation: fadeZoomIn 0.3s ease forwards;
+}
+
+.animate-fade-zoom.out {
+  animation: fadeZoomOut 0.3s ease forwards;
+}

@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   password: {
     type: String,
     required: true,
@@ -15,8 +20,20 @@ const userSchema = new mongoose.Schema({
   userType: {
     type: String,
     required: true,
-    enum: ['student', 'organizer'], 
+    enum: ['student', 'organizer'],
   },
+  registeredEvents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'registeredhackathon',
+    },
+  ],
+  participatedEvents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'registeredhackathon',
+    },
+  ],
 });
 
 // Hash password before saving the user
@@ -32,6 +49,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-const studentusers = mongoose.model('studentusers', userSchema);
+const StudentUser = mongoose.model('studentusers', userSchema);
 
-module.exports = studentusers;
+module.exports = StudentUser;

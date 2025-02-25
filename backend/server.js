@@ -1,45 +1,56 @@
-// server.js
-
+// server.js 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const authRoutes = require("./routes/authroutes");  // Import your routes
 
 dotenv.config();
 
 const app = express();
 
-// CORS Configuration (make sure frontend and backend are allowed to communicate)
-app.use(cors({
-  origin: "http://localhost:5173", // Make sure your frontend is running on this URL
-  credentials: true,
-}));
+// CORS middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
-app.use(express.json()); // For parsing application/json
+// Middleware to parse JSON requests
+app.use(express.json());
 
-// Database connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB");
   })
-  .catch(err => {
+  .catch((err) => {
     console.error("MongoDB connection error", err);
   });
 
-// Use routes correctly
-app.use("/api/auth", authRoutes); // The '/api/auth' is the base for the routes defined in authRoutes
+// Routes
+const authRoutes = require("./routes/authroutes");
+app.use("/api/auth", authRoutes);
 
-// Handle preflight requests for CORS
-app.options("*", cors({
-  origin: "http://localhost:5173",
-  credentials: true,
-}));
+const userRoutes = require("./routes/userroutes");
+app.use("/api/user", userRoutes);
 
-// Server setup
+const hackathonRoutes = require("./routes/hackathonroutes");
+app.use("/api/hackathons", hackathonRoutes);
+
+const registeredhackathonRoutes = require("./routes/hackathonregistrationroutes");
+app.use("/api/registeredhackathon", registeredhackathonRoutes);
+
+// Handle unknown routes
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// Server start
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
