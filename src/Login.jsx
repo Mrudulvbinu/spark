@@ -21,7 +21,12 @@ const Login = () => {
       loginContainer.classList.add("opacity-0", "translate-y-20");
       setTimeout(() => {
         loginContainer.classList.remove("opacity-0", "translate-y-20");
-        loginContainer.classList.add("transition-all", "duration-1000", "opacity-100", "translate-y-0");
+        loginContainer.classList.add(
+          "transition-all",
+          "duration-1000",
+          "opacity-100",
+          "translate-y-0"
+        );
       }, 700);
     }
   }, []);
@@ -51,6 +56,7 @@ const Login = () => {
 
       if (response.data.success) {
         localStorage.setItem("token", response.data.token); // ✅ Store token
+
 
         setSuccessMessage("Login successful! Redirecting...");
         setTimeout(() => {

@@ -24,14 +24,19 @@ function Shome() {
     const fetchData = async () => {
       try {
         const [hackathonRes, upcomingRes, participatedRes] = await Promise.all([
-          axiosInstance.get('/hackathons'),
+          axiosInstance.get("/hackathons"),
           axiosInstance.get('/user/registered-events?type=upcoming'),
           axiosInstance.get('/user/participated-events?type=participated')
         ]);
 
+        console.log("Full Hackathon Response:", hackathonRes.data);
+
         const hackathons = hackathonRes.data;
-        setTeamHackathons(hackathons.filter(event => event.typeofhk === 'Team'));
-        setSoloHackathons(hackathons.filter(event => event.typeofhk === 'Solo'));
+        setTeamHackathons(hackathons.filter(event => event.typeofhk.includes("Team")));
+        setSoloHackathons(hackathons.filter(event => event.typeofhk.includes("Solo")));
+
+        console.log("Team Hackathons:", teamHackathons);
+      console.log("Solo Hackathons:", soloHackathons);
 
         setUpcomingEvents(upcomingRes.data);
         setParticipatedEvents(participatedRes.data);
@@ -44,7 +49,7 @@ function Shome() {
   }, []);
 
   const handleRegister = (event) => {
-    const route = event.typeofhk === 'Team' ? `/tregpg/${event._id}` : `/vregpg/${event._id}`;
+  const route = event.typeofhk === 'Team' ? `/tregpg/${event._id}` : `/vregpg/${event._id}`;
     navigate(route);
   };
 

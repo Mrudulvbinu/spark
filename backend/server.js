@@ -26,7 +26,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB");  
   })
   .catch((err) => {
     console.error("MongoDB connection error", err);
@@ -39,8 +39,8 @@ app.use("/api/auth", authRoutes);
 const userRoutes = require("./routes/userroutes");
 app.use("/api/user", userRoutes);
 
-const hackathonRoutes = require("./routes/hackathonroutes");
-app.use("/api/hackathons", hackathonRoutes);
+const hackathonroutes = require("./routes/hackathonroutes");
+app.use("/api/hackathons", hackathonroutes);
 
 const registeredhackathonRoutes = require("./routes/hackathonregistrationroutes");
 app.use("/api/registeredhackathon", registeredhackathonRoutes);

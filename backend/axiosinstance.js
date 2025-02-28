@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   withCredentials: true, 
 });
 
-// Request interceptor to add token to headers
+// Request Interceptor: Attach Token to Headers
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -17,17 +17,28 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error) // Handle request error
 );
 
-// Response interceptor for token expiration or unauthorized access
+// Response Interceptor: Handle Unauthorized Access & Errors
 axiosInstance.interceptors.response.use(
   (response) => response, // Pass successful response
   (error) => {
-    if (error.response && error.response.status === 401) {
-      console.error('Unauthorized: Token may be expired or invalid');
-      localStorage.removeItem('token'); // Clear expired token
-      window.location.href = '/login'; // Redirect to login page
+    if (error.response) {
+      const { status } = error.response;
+      
+      if (status === 401) {
+        console.error('Unauthorized: Token may be expired or invalid');
+        localStorage.removeItem('token'); // Clear token
+        window.location.href = '/login'; // Redirect to login page
+      } else if (status === 403) {
+        console.error('Forbidden: You do not have permission to access this resource');
+        alert('Access Denied! You do not have permission.');
+      } else if (status >= 500) {
+        console.error('Server error:', error.response.data);
+        alert('A server error occurred. Please try again later.');
+      }
     }
-    return Promise.reject(error); // Handle other errors
+    return Promise.reject(error);
   }
 );
 
 export default axiosInstance;
+        

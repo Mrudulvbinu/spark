@@ -3,23 +3,22 @@ const jwt = require("jsonwebtoken");
 const StudentUser = require("../modules/studentuser");
 const OrganizerUser = require("../modules/organizerusers");
 const Admin = require("../modules/admin");
-const RegisteredHackathon = require("../modules/registeredhackathon");
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key"; 
 
 // ================== REGISTER STUDENT ==================
 const registerStudent = async (req, res) => {
-  const { name, email, username, password } = req.body;
+  const { name, email, username, password } = req.body;   
   try {
     const existingUser = await StudentUser.findOne({ username });
-    if (existingUser) return res.status(400).json({ error: "Username already exists!" });
+    if (existingUser) return res.status(400).json({ message: "Username already exists!" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new StudentUser({ name, email, username, password: hashedPassword, userType: "student" });
     await newUser.save();
-    res.status(201).json({ message: "Student registered successfully!" });
+    res.status(201).json({ success: true, message: "Student registered successfully!" });
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -28,7 +27,7 @@ const registerOrganizer = async (req, res) => {
   const { name, email, username, password, address, certificate } = req.body;
   try {
     const existingUser = await OrganizerUser.findOne({ username });
-    if (existingUser) return res.status(400).json({ error: "Username already exists!" });
+    if (existingUser) return res.status(400).json({ message: "Username already exists!" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new OrganizerUser({
@@ -42,9 +41,13 @@ const registerOrganizer = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: "Organizer registered successfully!" });
+    res.status(201).json({ 
+      success: true, 
+      message: "Organizer registered successfully!", 
+      organizerId: newUser._id  // ✅ Send organizerId back
+    });
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -56,29 +59,33 @@ const login = async (req, res) => {
     let user;
 
     if (userType === "student") {
-      user = await StudentUser.findOne({ username });
+      user = await StudentUser.findOne({ username }).select("userType _id username password").lean();
     } else if (userType === "organizer") {
-      user = await OrganizerUser.findOne({ username });
+      user = await OrganizerUser.findOne({ username }).select("userType _id username password").lean();
     } else {
-      return res.status(400).json({ error: "Invalid user type" });
+      return res.status(400).json({ message: "Invalid user type" });
     }
 
-    if (!user) return res.status(400).json({ error: "User not found" });
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    console.log("Logging in user:", user); // Debug log
+    console.log("User Type before signing token:", user.userType); // Debug log
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    if (!isPasswordCorrect) return res.status(400).json({ error: "Invalid credentials" });
+    if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ id: user._id, userType: user.userType }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, userType: user.userType }, process.env.JWT_SECRET, { expiresIn: "24h" });
+    console.log("Generated Token:", token);
 
     res.status(200).json({
       success: true,
       message: "Login successful!",
-      user: { username: user.username, userType: user.userType, _id: user._id },
       token,
+      organizerId: user.userType === "organizer" ? user._id : null,  // ✅ Send `organizerId` on login
     });
   } catch (error) {
     console.error("Error logging in user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -88,38 +95,20 @@ const adminLogin = async (req, res) => {
 
   try {
     const admin = await Admin.findOne({ username });
-    if (!admin) return res.status(400).json({ success: false, message: "Admin not found" });
+    if (!admin) return res.status(400).json({ message: "Admin not found" });
 
-    if (admin.password !== password) return res.status(400).json({ success: false, message: "Invalid password" });
+    if (admin.password !== password) return res.status(400).json({ message: "Invalid password" });
 
-    res.status(200).json({ success: true, message: "Login successful" });
+    const token = jwt.sign({ id: admin._id, userType: "admin" }, JWT_SECRET, { expiresIn: "1h" });
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful!",
+      token,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
-// ================== FETCH REGISTERED EVENTS ==================
-const getRegisteredEvents = async (req, res) => {
-  try {
-    const user = await StudentUser.findById(req.user.id).populate('registeredEvents');
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    res.json(user.registeredEvents);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching registered events", error });
-  }
-};
-
-// ================== FETCH PARTICIPATED EVENTS ==================
-const getParticipatedEvents = async (req, res) => {
-  try {
-    const user = await StudentUser.findById(req.user.id).populate('participatedEvents');
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    res.json(user.participatedEvents);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching participated events", error });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -128,6 +117,4 @@ module.exports = {
   registerOrganizer,
   login,
   adminLogin,
-  getRegisteredEvents,
-  getParticipatedEvents,
 };

@@ -1,31 +1,32 @@
 const RegisteredHackathon = require('../modules/registeredhackathon');
 const Hackathon = require('../modules/hackathon');
 
-exports.registerHackathon = async (req, res) => {
+exports.registerHackathon = async (req, res, organizerId = null) => {
     try {
         const { hackathonId, leaderName, leaderEmail, isTeam, members } = req.body;
         const existingRegistration = await RegisteredHackathon.findOne({ hackathonId, leaderEmail });
+        
         if (existingRegistration) {
             return res.status(400).json({ message: 'You have already registered for this hackathon.' });
         }
-        const hackathon = await Hackathon.findById(hackathonId);
-        if (!hackathon) {
-            console.log("Received hackathonId:", hackathonId);
-const hackathon = await Hackathon.findById(hackathonId);
-console.log("Hackathon found:", hackathon);
 
-            return res.status(404).json({ message: 'Hackathon not found.' });
+        // Fetch hackathon if `organizerId` is not provided
+        if (!organizerId) {
+            const hackathon = await Hackathon.findById(hackathonId);
+            if (!hackathon) {
+                return res.status(404).json({ message: 'Hackathon not found.' });
+            }
+            organizerId = hackathon.organizerId;
         }
 
         const registration = new RegisteredHackathon({
             hackathonId,
-            organizerId: hackathon.organizerId,
+            organizerId,
             leaderName,
             leaderEmail,
             isTeam,
             members
         });
-        
 
         await registration.save();
         res.status(201).json({ message: 'Registration successful.', registration });
@@ -64,4 +65,3 @@ exports.getStudentHackathons = async (req, res) => {
         res.status(500).json({ message: 'Server error.', error: err.message });
     }
 };
-

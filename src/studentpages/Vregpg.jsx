@@ -12,19 +12,22 @@ const Vregpg = () => {
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState("");
   const [hasParticipated, setHasParticipated] = useState(null);
+  const [hackathon, setHackathon] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // ✅ Fetch Hackathon by ID (for verification)
   useEffect(() => {
     const fetchHackathon = async () => {
       try {
+        console.log("Fetching hackathon with ID:", hackathonId); // ✅ Logging
         const response = await axiosInstance.get(`/hackathons/${hackathonId}`);
-        console.log("Hackathon fetched:", response.data);
+        console.log("Hackathon fetched successfully:", response.data); // ✅ Logging
+        setHackathon(response.data);
       } catch (error) {
         console.error("Error fetching hackathon:", error.response?.data || error.message);
+        setErrorMessage("Failed to fetch hackathon details.");
       }
     };
 
@@ -49,32 +52,49 @@ const Vregpg = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("Hackathon Data Before Submitting:", hackathon); // 🔍 Debugging
+  
+    if (!hackathon) {
+      setErrorMessage("Hackathon details not found.");
+      return;
+    }
+  
+    if (!hackathon.organizerId) {
+      console.error("Organizer ID is missing!", hackathon);
+      setErrorMessage("Organizer ID is missing.");
+      return;
+    }
+  
     const formData = new FormData(event.target);
-
+  
     const registrationData = {
       hackathonId,
+      organizerId: hackathon.organizerId, // ✅ This is currently undefined
+      leaderName: formData.get("name"),
+      leaderEmail: formData.get("email"),
+      isTeam: false,
       name: formData.get("name"),
-      dob: formData.get("dob"),
       email: formData.get("email"),
       phone: formData.get("phone"),
       education: formData.get("education"),
-      teamSize: 1,
-      members: [],
       hasParticipated,
+      members: [],
     };
-
+  
+    console.log("Submitting registration data:", registrationData); // 🔍 Debugging
+  
     const dataToSend = new FormData();
     dataToSend.append("data", JSON.stringify(registrationData));
     if (file) dataToSend.append("file", file);
-
+  
     try {
       await axiosInstance.post("/registeredhackathon/register", dataToSend);
       navigate("/shome");
     } catch (error) {
+      console.error("Registration failed:", error.response?.data || error.message);
       setErrorMessage(error.response?.data?.message || "Registration failed.");
     }
   };
-
   return (
     <div className="relative flex flex-col min-h-screen">
       <video className="fixed top-0 left-0 w-full h-full object-cover z-0" autoPlay loop muted playsInline>
@@ -86,15 +106,15 @@ const Vregpg = () => {
         <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 space-y-6 max-w-3xl mx-auto">
           <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Register for Hackathon</h1>
 
-          {["Name", "Date of Birth", "Email", "Phone Number"].map((label, index) => (
-            <div key={index} className="flex items-center space-x-4">
-              <label htmlFor={label.toLowerCase().replace(/ /g, "-")} className="w-1/3 font-bold text-lg text-gray-700 text-right">
+          {[["Name", "name"], ["Date of Birth", "dob"], ["Email", "email"], ["Phone Number", "phone"]].map(([label, id]) => (
+            <div key={id} className="flex items-center space-x-4">
+              <label htmlFor={id} className="w-1/3 font-bold text-lg text-gray-700 text-right">
                 {label}:
               </label>
               <input
-                type={label === "Date of Birth" ? "date" : label === "Email" ? "email" : label === "Phone Number" ? "tel" : "text"}
-                id={label.toLowerCase().replace(/ /g, "-")}
-                name={label.toLowerCase().replace(/ /g, "-")}
+                type={id === "dob" ? "date" : id === "email" ? "email" : id === "phone" ? "tel" : "text"}
+                id={id}
+                name={id}
                 className="w-2/3 p-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -130,13 +150,7 @@ const Vregpg = () => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <label htmlFor="project-proposal" className="w-1/3 font-bold text-lg text-gray-700 text-right">Upload Project Proposal:</label>
-            <input type="file" id="project-proposal" onChange={handleFileChange} className="w-2/3 p-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" accept=".pdf" />
-          </div>
-          {fileError && <p className="text-red-500 text-sm mt-2">{fileError}</p>}
           {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
-
           <div className="text-center">
             <button type="submit" className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg font-bold text-xl hover:bg-blue-800">Register</button>
           </div>

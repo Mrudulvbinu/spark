@@ -1,8 +1,7 @@
-// models/Hackathon.js
 const mongoose = require('mongoose');
 
 const HackathonSchema = new mongoose.Schema({
-    organizerId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'OrganizerUser' },
+    organizerId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'OrganizerUser' }, // ✅ Ensure this is required
     typeofhk: { type: String, required: true },
     ename: { type: String, required: true },
     venue: { type: String, required: true },
