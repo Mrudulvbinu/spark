@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../backend/axiosinstance";
+import axiosInstance from "../axiosinstance";
 import { useNavigate, useParams } from "react-router-dom"; // For navigation and hackathonId
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
@@ -50,12 +50,12 @@ const Tregpg = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    const formData = new FormData(event.target);
+  const formData = new FormData(event.target);
 
-    const registrationData = {
+  const registrationData = {
       hackathonId,
       name: formData.get("name"),
       dob: formData.get("dob"),
@@ -64,23 +64,27 @@ const Tregpg = () => {
       education: formData.get("education"),
       teamName: formData.get("team-name"),
       teamSize,
-      members: members.map((member) => member["member-name"]), // Only names for display
-      hasParticipated,
-    };
+      members: members.map((member) => ({
+          name: member["member-name"],
+          email: member["member-email"],
+          dob: member["member-dob"]
+      })),
+      hasParticipated
+  };
 
-    const dataToSend = new FormData();
-    dataToSend.append("data", JSON.stringify(registrationData));
-    if (file) dataToSend.append("file", file);
+  const dataToSend = new FormData();
+  dataToSend.append("data", JSON.stringify(registrationData));
+  if (file) dataToSend.append("file", file);
 
-    try {
-      const response = await axiosInstance.post("/api/registeredhackathon/register", dataToSend);
-      console.log("Registration Successful:", response.data);
+  try {
+      const response = await axiosInstance.post("/teamhackathons/register", dataToSend);
+      alert(response.data.message || "Registration successful!");
       navigate("/shome");
-    } catch (error) {
+  } catch (error) {
       setErrorMessage(error.response?.data?.message || "Registration failed.");
       console.error("Registration Error:", error);
-    }
-  };
+  }
+};
 
   return (
     <div className="relative flex flex-col min-h-screen">

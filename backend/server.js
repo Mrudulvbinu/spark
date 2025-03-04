@@ -45,6 +45,8 @@ app.use("/api/hackathons", hackathonroutes);
 const registeredhackathonRoutes = require("./routes/hackathonregistrationroutes");
 app.use("/api/registeredhackathon", registeredhackathonRoutes);
 
+
+
 // Handle unknown routes
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });

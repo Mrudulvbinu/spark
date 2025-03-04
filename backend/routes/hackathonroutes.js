@@ -7,9 +7,7 @@ const verifyToken = require("../middleware/authmiddleware");
 
 router.get("/", async (req, res) => {
   try {
-    console.log("📢 Fetching all hackathons...");
-    const hackathons = await Hackathon.find();  // Ensure DB query is correct
-    console.log("✅ Hackathons fetched:", hackathons);
+    const hackathons = await Hackathon.find();
     res.status(200).json(hackathons);
   } catch (error) {
     console.error("❌ Error fetching hackathons:", error);
@@ -30,7 +28,7 @@ router.post("/add", verifyToken, async (req, res) => {
 
     const organizerId = req.user.id;
 
-    const { typeofhk, ename, venue, date, regstart, regend, details, durofhk, prize } = req.body;
+    const { typeofhk, ename, venue, date, regstart, regend, details, durofhk, prize, maxTeamMembers, isTeamHackathon} = req.body;
     if (!typeofhk || !ename || !venue || !date || !regstart || !regend || !details || !durofhk || !prize) {
       return res.status(400).json({ message: "All fields are required." });
     }
@@ -46,6 +44,8 @@ router.post("/add", verifyToken, async (req, res) => {
       details,
       durofhk,
       prize,
+      maxTeamMembers,
+      isTeamHackathon,
     });
 
     await newHackathon.save();

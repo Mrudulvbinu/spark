@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
-import axiosInstance from "../backend/axiosinstance";
+import axiosInstance from "./axiosinstance";
 
 const Regist = () => {
   const [name1, setName] = useState("");

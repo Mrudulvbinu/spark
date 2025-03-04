@@ -36,8 +36,8 @@ const App = () => {
 
         {/* Student Routes */}
         <Route path="/shome" element={<Shome />} />
-        <Route path="/Tregpg/:hackathonId" element={<Tregpg />} /> {/* Team Registration with ID */}
-        <Route path="/Vregpg/:hackathonId" element={<Vregpg />} /> {/* Solo Registration with ID */}
+        <Route path="/Tregpg/:hackathonId" element={<Tregpg />} />
+        <Route path="/Vregpg/:hackathonId" element={<Vregpg />} /> 
 
         {/* Organizer Routes */}
         <Route path="/ohome" element={<Ohome />} />

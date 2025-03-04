@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import img from "/src/assets/im1.jpg";
 import Headerbar from "/src/components/headerbar.jsx";
 import Navbar from "/src/components/navbar.jsx";
 import Footer from "/src/components/footer.jsx";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import axiosInstance from '../../backend/axiosinstance';
+import axiosInstance from '../axiosinstance';
 
 function Shome() {
   const [teamHackathons, setTeamHackathons] = useState([]);
@@ -49,7 +49,7 @@ function Shome() {
   }, []);
 
   const handleRegister = (event) => {
-  const route = event.typeofhk === 'Team' ? `/tregpg/${event._id}` : `/vregpg/${event._id}`;
+  const route = event.typeofhk === 'Team' ? `/Tregpg/${event._id}` : `/Vregpg/${event._id}`;
     navigate(route);
   };
 

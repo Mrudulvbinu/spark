@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../backend/axiosinstance";
+import axiosInstance from "../axiosinstance";
 import { useNavigate, useParams } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
@@ -9,10 +9,9 @@ const Vregpg = () => {
   const navigate = useNavigate();
   const { hackathonId } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
-  const [file, setFile] = useState(null);
-  const [fileError, setFileError] = useState("");
+  const [file] = useState(null);
   const [hasParticipated, setHasParticipated] = useState(null);
-  const [hackathon, setHackathon] = useState(null);
+  const [vhackathon, setHackathon] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,9 +20,9 @@ const Vregpg = () => {
   useEffect(() => {
     const fetchHackathon = async () => {
       try {
-        console.log("Fetching hackathon with ID:", hackathonId); // ✅ Logging
+        console.log("Fetching hackathon with ID:", hackathonId);
         const response = await axiosInstance.get(`/hackathons/${hackathonId}`);
-        console.log("Hackathon fetched successfully:", response.data); // ✅ Logging
+        console.log("Hackathon fetched successfully:", response.data);
         setHackathon(response.data);
       } catch (error) {
         console.error("Error fetching hackathon:", error.response?.data || error.message);
@@ -34,33 +33,18 @@ const Vregpg = () => {
     if (hackathonId) fetchHackathon();
   }, [hackathonId]);
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    const maxSize = 1 * 1024 * 1024;
-
-    if (selectedFile?.type !== "application/pdf") {
-      setFileError("Only PDF files are allowed.");
-      setFile(null);
-    } else if (selectedFile?.size > maxSize) {
-      setFileError("File size should be below 1MB.");
-      setFile(null);
-    } else {
-      setFileError("");
-      setFile(selectedFile);
-    }
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Hackathon Data Before Submitting:", hackathon); // 🔍 Debugging
+    console.log("Hackathon Data Before Submitting:", vhackathon); 
   
-    if (!hackathon) {
+    if (!vhackathon) {
       setErrorMessage("Hackathon details not found.");
       return;
     }
   
-    if (!hackathon.organizerId) {
-      console.error("Organizer ID is missing!", hackathon);
+    if (!vhackathon.organizerId) {
+      console.error("Organizer ID is missing!", vhackathon);
       setErrorMessage("Organizer ID is missing.");
       return;
     }
@@ -69,10 +53,9 @@ const Vregpg = () => {
   
     const registrationData = {
       hackathonId,
-      organizerId: hackathon.organizerId, // ✅ This is currently undefined
+      organizerId: hackathon.organizerId, 
       leaderName: formData.get("name"),
       leaderEmail: formData.get("email"),
-      isTeam: false,
       name: formData.get("name"),
       email: formData.get("email"),
       phone: formData.get("phone"),
@@ -81,7 +64,7 @@ const Vregpg = () => {
       members: [],
     };
   
-    console.log("Submitting registration data:", registrationData); // 🔍 Debugging
+    console.log("Submitting registration data:", registrationData);
   
     const dataToSend = new FormData();
     dataToSend.append("data", JSON.stringify(registrationData));

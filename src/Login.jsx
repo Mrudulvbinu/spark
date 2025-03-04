@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../backend/axiosinstance";
+import axiosInstance from "./axiosinstance";
 import vid1 from "/src/assets/vid1.mp4";
 import logo from "/src/assets/logo.png";
 import Header from "/src/components/header.jsx";
