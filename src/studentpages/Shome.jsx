@@ -182,10 +182,13 @@ function Shome() {
             <h2 className="text-3xl font-bold text-center mb-4">EVENT DETAILS</h2>
             <p className="text-lg"><strong>Name:</strong> {selectedEvent.ename}</p>
             <p className="text-lg"><strong>Date:</strong> {selectedEvent.date}</p>
-            <p className="text-lg"><strong>{selectedEvent.typeofhk === 'Team' ? 'Venue' : 'Platform'}:</strong> {selectedEvent.venue}</p>
+            <p className="text-lg"><strong>{selectedEvent.typeofhk === 'Team Hackathon (offline)' ? 'Venue' : 'Platform'}:</strong> {selectedEvent.venue}</p>
             <p className="text-lg"><strong>Duration:</strong> {selectedEvent.durofhk}</p>
             <p className="text-lg"><strong>Prize:</strong> {selectedEvent.prize}</p>
             <p className="text-lg"><strong>Details:</strong> {selectedEvent.details}</p>
+            <p className="text-lg"><strong>Last date of registration:</strong> {selectedEvent.regend}</p>
+            {selectedEvent.typeofhk === 'Team Hackathon (offline)' && (
+            <p className="text-lg"><strong>Maximum number of participants:</strong> {selectedEvent.maxTeamMembers}</p>)}
             <div className="flex justify-center mt-6">
               <button onClick={() => handleRegister(selectedEvent)} className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Register</button>
             </div>
