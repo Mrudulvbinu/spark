@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 const Hosthk = () => {
     const navigate = useNavigate();
     const [typeofhk, setTypeofhk] = useState('Team Hackathon (offline)');
-    const [maxTeamMembers, setMaxTeamMembers] = useState(null);
-
     // State for form data
     const [formData, setFormData] = useState({
         typeofhk: "Team Hackathon (offline)",
@@ -24,7 +22,6 @@ const Hosthk = () => {
         durofhk: "",
         prize: "",
         isTeamHackathon: true,
-        maxTeamMembers: maxTeamMembers,
     });
 
     // Track label text for Venue/Platform
@@ -45,10 +42,7 @@ const Hosthk = () => {
             setTypeofhk(value); // ✅ Keep typeofhk in sync
         }
     };
-    const handleMaxTeamChange = (value) => {
-        setMaxTeamMembers((prev) => Math.max(2, Math.min(8, (prev || 0) + value)));
-        setFormData((prev) => ({ ...prev, maxTeamMembers }));
-    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const token = localStorage.getItem("token");
@@ -80,7 +74,6 @@ const Hosthk = () => {
                 durofhk: "",
                 prize: "",
                 isTeamHackathon: true,
-                maxTeamMembers: maxTeamMembers,
             });
             setVenueLabel("Event Venue");
             setTypeofhk("Team Hackathon (offline)"); // Reset typeofhk state as well
@@ -143,30 +136,6 @@ const Hosthk = () => {
         />
     </div>
 ))}
-
-
-{formData.typeofhk === "Team Hackathon (offline)" && (
-    <div className="flex items-center space-x-4">
-        <label className="w-1/3 font-bold text-lg text-gray-700 text-right">
-            Maximum number of Team members:
-        </label>
-        <div className="w-2/3">
-            <input
-                type="number"
-                name="maxTeamMembers"
-                placeholder="Max Team Members"
-                value={formData.maxTeamMembers || ""}
-                onChange={(e) => {
-                    const value = Math.max(2, Math.min(8, parseInt(e.target.value) || 2));
-                    setFormData((prev) => ({ ...prev, maxTeamMembers: value }));
-                }}
-                className="w-16 text-center border border-gray-300 rounded-md"
-                min="2"
-                max="8"
-            />
-        </div>
-    </div>
-)}
 
 
 {/* Duration of Hackathon */}

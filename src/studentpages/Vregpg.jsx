@@ -6,76 +6,37 @@ import logo from "/src/assets/logo.png";
 import Header from "/src/components/header.jsx";
 
 const Vregpg = () => {
-  const navigate = useNavigate();
-  const { hackathonId } = useParams();
-  const [errorMessage, setErrorMessage] = useState("");
-  const [file] = useState(null);
-  const [hasParticipated, setHasParticipated] = useState(null);
-  const [vhackathon, setHackathon] = useState(null);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    const fetchHackathon = async () => {
-      try {
-        console.log("Fetching hackathon with ID:", hackathonId);
-        const response = await axiosInstance.get(`/hackathons/${hackathonId}`);
-        console.log("Hackathon fetched successfully:", response.data);
-        setHackathon(response.data);
-      } catch (error) {
-        console.error("Error fetching hackathon:", error.response?.data || error.message);
-        setErrorMessage("Failed to fetch hackathon details.");
-      }
-    };
-
-    if (hackathonId) fetchHackathon();
-  }, [hackathonId]);
-
+  const navigate = useNavigate();
+  const { hackathonId } = useParams();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [hasParticipated, setHasParticipated] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Hackathon Data Before Submitting:", vhackathon); 
-  
-    if (!vhackathon) {
-      setErrorMessage("Hackathon details not found.");
-      return;
-    }
-  
-    if (!vhackathon.organizerId) {
-      console.error("Organizer ID is missing!", vhackathon);
-      setErrorMessage("Organizer ID is missing.");
-      return;
-    }
-  
     const formData = new FormData(event.target);
-  
+
     const registrationData = {
       hackathonId,
-      organizerId: hackathon.organizerId, 
-      leaderName: formData.get("name"),
-      leaderEmail: formData.get("email"),
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      education: formData.get("education"),
+      isTeam: false,
+      name: formData.get('name'),
+      datebirth:formData.get('datebirth'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      education: formData.get('education'),
       hasParticipated,
-      members: [],
+      members: []
     };
-  
-    console.log("Submitting registration data:", registrationData);
-  
-    const dataToSend = new FormData();
-    dataToSend.append("data", JSON.stringify(registrationData));
-    if (file) dataToSend.append("file", file);
-  
+
     try {
-      await axiosInstance.post("/registeredhackathon/register", dataToSend);
-      navigate("/shome");
+      await axiosInstance.post('/registeredhackathon/register', registrationData);
+      alert('Solo Registration successful!');
+      navigate('/shome');
     } catch (error) {
-      console.error("Registration failed:", error.response?.data || error.message);
-      setErrorMessage(error.response?.data?.message || "Registration failed.");
+      setErrorMessage(error.response?.data?.message || 'Registration failed.');
     }
   };
   return (
@@ -87,15 +48,15 @@ const Vregpg = () => {
       <div className="w-full transform scale-80 relative z-10 container mx-auto p-1">
         <Header />
         <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 space-y-6 max-w-3xl mx-auto">
-          <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Register for Hackathon</h1>
+          <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Register for Virtual Hackathon</h1>
 
-          {[["Name", "name"], ["Date of Birth", "dob"], ["Email", "email"], ["Phone Number", "phone"]].map(([label, id]) => (
+          {[["Name", "name"], ["Date of Birth", "datebirth"], ["Email", "email"], ["Phone Number", "phone"]].map(([label, id]) => (
             <div key={id} className="flex items-center space-x-4">
               <label htmlFor={id} className="w-1/3 font-bold text-lg text-gray-700 text-right">
                 {label}:
               </label>
               <input
-                type={id === "dob" ? "date" : id === "email" ? "email" : id === "phone" ? "tel" : "text"}
+                type={id === "datebirth" ? "date" : id === "email" ? "email" : id === "phone" ? "tel" : "text"}
                 id={id}
                 name={id}
                 className="w-2/3 p-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"

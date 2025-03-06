@@ -49,7 +49,7 @@ function Shome() {
   }, []);
 
   const handleRegister = (event) => {
-  const route = event.typeofhk === 'Team' ? `/Tregpg/${event._id}` : `/Vregpg/${event._id}`;
+  const route = event.typeofhk === 'Team Hackathon (offline)' ? `/Tregpg/${event._id}` : `/Vregpg/${event._id}`;
     navigate(route);
   };
 
@@ -86,7 +86,7 @@ function Shome() {
         <div className="flex flex-wrap justify-center gap-6 mt-10">
           {teamHackathons.length > 0 ? (
             teamHackathons.map((event) => (
-              <div key={event._id} className="bg-blue-700 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
+              <div key={event._id} className="bg-blue-900 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
                 <h3 className="text-2xl font-bold">{event.ename}</h3>
                 <p className="text-lg">📅 Date: {event.date}</p>
                 <p className="text-lg">📍 Venue: {event.venue}</p>
@@ -107,7 +107,7 @@ function Shome() {
         <div className="flex flex-wrap justify-center gap-6 mt-10">
           {soloHackathons.length > 0 ? (
             soloHackathons.map((event) => (
-              <div key={event._id} className="bg-green-600 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
+              <div key={event._id} className="bg-green-800 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
                 <h3 className="text-2xl font-bold">{event.ename}</h3>
                 <p className="text-lg">📅 Date: {event.date}</p>
                 <p className="text-lg">💻 Platform: {event.venue}</p>

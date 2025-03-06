@@ -11,7 +11,6 @@
         details: { type: String, required: true },
         durofhk: { type: String, required: true },
         prize: { type: String, required: true },
-        maxTeamMembers: { type: Number, default: null }, // Only for team hackathons
         isTeamHackathon: { type: Boolean, required: true }, // Indicates if the hackathon is team-based
     });
 

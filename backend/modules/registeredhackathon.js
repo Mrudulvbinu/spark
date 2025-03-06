@@ -15,16 +15,37 @@ const RegisteredHackathonSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    datebirth: {
+        type: String,
+        required: true
+    },
     leaderEmail: {
         type: String,
         required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    education: {
+        type: String,
+        required: true
+    },
+    hasParticipated: {
+        type: String,
+        enum: ['yes', 'no'],
+        required: true
+    },
+    teamName: {
+        type: String,
+        required: function() { return this.isTeam; } // Only required if isTeam is true
     },
     isTeam: {
         type: Boolean,
         required: true
     },
     members: {
-        type: [String],
+        type: [{ name: String, email: String, dob: String }],
         default: []
     },
     registrationDate: {

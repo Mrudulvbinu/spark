@@ -28,7 +28,7 @@ router.post("/add", verifyToken, async (req, res) => {
 
     const organizerId = req.user.id;
 
-    const { typeofhk, ename, venue, date, regstart, regend, details, durofhk, prize, maxTeamMembers, isTeamHackathon} = req.body;
+    const { typeofhk, ename, venue, date, regstart, regend, details, durofhk, prize, isTeamHackathon} = req.body;
     if (!typeofhk || !ename || !venue || !date || !regstart || !regend || !details || !durofhk || !prize) {
       return res.status(400).json({ message: "All fields are required." });
     }
@@ -44,7 +44,6 @@ router.post("/add", verifyToken, async (req, res) => {
       details,
       durofhk,
       prize,
-      maxTeamMembers,
       isTeamHackathon,
     });
 

@@ -3,7 +3,7 @@ const Hackathon = require('../modules/hackathon');
 
 exports.registerHackathon = async (req, res, organizerId = null) => {
     try {
-        const { hackathonId, leaderName, leaderEmail, isTeam, members } = req.body;
+        const { hackathonId, isTeam, leaderName, leaderEmail, phone, education, hasParticipated, teamName, members } = req.body;
         const existingRegistration = await RegisteredHackathon.findOne({ hackathonId, leaderEmail });
         
         if (existingRegistration) {
@@ -21,10 +21,13 @@ exports.registerHackathon = async (req, res, organizerId = null) => {
 
         const registration = new RegisteredHackathon({
             hackathonId,
-            organizerId,
+            isTeam,
             leaderName,
             leaderEmail,
-            isTeam,
+            phone,
+            education,
+            hasParticipated,
+            teamName,
             members
         });
 
