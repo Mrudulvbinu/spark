@@ -6,9 +6,10 @@ import { Link as ScrollLink } from 'react-scroll'; // Importing react-scroll's L
 const Navbar = () => {
   const navigate = useNavigate(); // For programmatically navigating
   
-  const handleLogout = () => {
-    // Logout functionality (for now, it just navigates to the home page)
-    navigate('/');
+    const handleLogout = () => {
+      localStorage.removeItem('studentId'); // ✅ Clear only studentId if needed
+      localStorage.clear(); // ✅ Clear all stored data for safety
+      navigate('/'); // ✅ Redirect to login page
   };
 
   return (

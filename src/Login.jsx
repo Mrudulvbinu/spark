@@ -45,6 +45,7 @@ const Login = () => {
     setErrorMessage("");
     setSuccessMessage("");
 
+
     try {
       let endpoint = isAdminLogin ? "/auth/login/admin" : "/auth/login";
 
@@ -57,7 +58,8 @@ const Login = () => {
       if (response.data.success) {
         localStorage.setItem("token", response.data.token); // ✅ Store token
 
-
+        // After successful login
+        localStorage.setItem('studentId', response.data.studentId);
         setSuccessMessage("Login successful! Redirecting...");
         setTimeout(() => {
           if (isAdminLogin) {

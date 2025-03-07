@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Hackathon = require('../modules/hackathon');
 const RegisteredHackathon = require('../modules/registeredhackathon');
+const mongoose = require("mongoose");
+
 const {
   getHackathonRegistrations,
-  getStudentHackathons,
 } = require('../controllers/registrationcontroller');
+
 
 // ✅ Unified Registration Endpoint for Solo and Team Hackathons
 router.post('/register', async (req, res) => {
@@ -14,6 +16,7 @@ router.post('/register', async (req, res) => {
 
     const {
       hackathonId,
+      studentId,
       isTeam,
       leaderName,
       datebirth,
@@ -41,9 +44,13 @@ router.post('/register', async (req, res) => {
     if (!hackathon.organizerId) {
       return res.status(400).json({ message: 'Organizer ID is missing in the Hackathon data.' });
     }
-
+// Ensure studentId is valid before converting to ObjectId
+if (!studentId || studentId === 'null') {
+  return res.status(400).json({ message: 'Student ID is missing or invalid.' });
+}
+  
     // Check if the user is already registered
-    const existingRegistration = await RegisteredHackathon.findOne({ hackathonId, leaderEmail });
+    const existingRegistration = await RegisteredHackathon.findOne({ hackathonId, studentId });
     if (existingRegistration) {
       return res.status(400).json({ message: 'You have already registered for this hackathon.' });
     }
@@ -52,6 +59,7 @@ router.post('/register', async (req, res) => {
     const registrationData = {
       hackathonId,
       organizerId: hackathon.organizerId,
+      studentId: new mongoose.Types.ObjectId(studentId), // Only if studentId is valid
       isTeam,
       leaderName: isTeam ? leaderName : name, // Use 'name' for virtual, 'leaderName' for team
       leaderEmail: isTeam ? leaderEmail : email, // Use 'email' for virtual, 'leaderEmail' for team
@@ -84,6 +92,31 @@ router.post('/register', async (req, res) => {
 router.get('/hackathon/:hackathonId', getHackathonRegistrations);
 
 // ✅ GET: Fetch hackathons registered by a specific student
-router.get('/student/:email', getStudentHackathons);
+router.get('/registeredhackathons/:studentId', async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    const { type } = req.query; // Expect type="upcoming" or "participated"
+    const today = new Date();
+
+    // Fetch all hackathon registrations for the student
+    const registrations = await RegisteredHackathon.find({ studentId })
+      .populate('hackathonId');
+
+    // Filter based on upcoming or participated events
+    let filteredEvents = [];
+    if (type === 'upcoming') {
+      filteredEvents = registrations.filter(reg => new Date(reg.hackathonId.date) >= today);
+    } else if (type === 'participated') {
+      filteredEvents = registrations.filter(reg => new Date(reg.hackathonId.date) < today);
+    } else {
+      return res.status(400).json({ message: 'Invalid event type specified.' });
+    }
+
+      res.status(200).json(filteredEvents);
+  } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ message: 'Server error.', error: error.message });
+  }
+});
 
 module.exports = router;

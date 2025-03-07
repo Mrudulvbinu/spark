@@ -18,9 +18,17 @@ const Vregpg = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+    const studentId = localStorage.getItem('studentId'); // Get student ID from localStorage
+    console.log("Student ID from localStorage:", studentId); // 🔍 Check if studentId is null
+
+    if (!studentId || studentId === 'null') {
+      alert("Student ID is missing. Please log in again.");
+      return;
+  }
 
     const registrationData = {
       hackathonId,
+      studentId,
       isTeam: false,
       name: formData.get('name'),
       datebirth:formData.get('datebirth'),
@@ -30,6 +38,7 @@ const Vregpg = () => {
       hasParticipated,
       members: []
     };
+    console.log("Registration Data Being Sent:", registrationData);
 
     try {
       await axiosInstance.post('/registeredhackathon/register', registrationData);

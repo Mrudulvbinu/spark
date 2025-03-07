@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   userType: {
     type: String,
     required: true,
-    enum: ['student', 'organizer'],
+    enum: ['student','organizer'],
   },
   registeredEvents: [
     {
@@ -49,6 +49,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-const StudentUser = mongoose.model('studentusers', userSchema);
+const StudentUser = mongoose.model('StudentUser', userSchema);
 
 module.exports = StudentUser;

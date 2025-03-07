@@ -38,6 +38,15 @@ const Tregpg = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+    const studentId = localStorage.getItem('studentId'); // Get student ID from localStorage
+
+    console.log("Student ID from localStorage:", studentId); // 🔍 Check if studentId is null
+
+
+    if (!studentId || studentId === 'null') {
+      alert("Student ID is missing. Please log in again.");
+      return;
+  }
 
 
  // Debugging form data before constructing registration data
@@ -60,6 +69,7 @@ const Tregpg = () => {
 
     const registrationData = {
       hackathonId,
+      studentId,
       isTeam: true,
       teamName: formData.get('teamName'),
       leaderName: formData.get('leaderName'),

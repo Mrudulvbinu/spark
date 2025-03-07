@@ -6,6 +6,11 @@ const RegisteredHackathonSchema = new mongoose.Schema({
         ref: 'Hackathon',
         required: true
     },
+    studentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'StudentUser',
+        required: true
+    },
     organizerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'OrganizerUser',

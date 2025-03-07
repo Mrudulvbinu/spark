@@ -8,7 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
 
 // ================== REGISTER STUDENT ==================
 const registerStudent = async (req, res) => {
-  const { name, email, username, password } = req.body;   
+  const { name, email, username, password, userType } = req.body;   
+  if (!userType) {
+    return res.status(400).json({ message: 'User type is required' });
+}
   try {
     const existingUser = await StudentUser.findOne({ username });
     if (existingUser) return res.status(400).json({ message: "Username already exists!" });
@@ -16,7 +19,8 @@ const registerStudent = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new StudentUser({ name, email, username, password: hashedPassword, userType: "student" });
     await newUser.save();
-    res.status(201).json({ success: true, message: "Student registered successfully!" });
+    res.status(201).json({ success: true, message: "Student registered successfully!", studentId: newUser._id  // ✅ Send organizerId back 
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -24,27 +28,18 @@ const registerStudent = async (req, res) => {
 
 // ================== REGISTER ORGANIZER ==================
 const registerOrganizer = async (req, res) => {
-  const { name, email, username, password, address, certificate } = req.body;
+  const { name, email, username, password, address, certificate, userType } = req.body;
+  if (!userType) {
+    return res.status(400).json({ message: 'User type is required' });
+}
   try {
     const existingUser = await OrganizerUser.findOne({ username });
     if (existingUser) return res.status(400).json({ message: "Username already exists!" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new OrganizerUser({
-      name,
-      email,
-      username,
-      password: hashedPassword,
-      address,
-      certificate,
-      userType: "organizer",
-    });
-
+    const newUser = new OrganizerUser({ name, email, username, password: hashedPassword, address, certificate, userType: "organizer" });
     await newUser.save();
-    res.status(201).json({ 
-      success: true, 
-      message: "Organizer registered successfully!", 
-      organizerId: newUser._id  // ✅ Send organizerId back
+    res.status(201).json({ success: true, message: "Organizer registered successfully!", organizerId: newUser._id  // ✅ Send organizerId back
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -81,6 +76,7 @@ const login = async (req, res) => {
       success: true,
       message: "Login successful!",
       token,
+      studentId: user.userType === "student" ? user._id :null, // ✅ Send `studentId` on login
       organizerId: user.userType === "organizer" ? user._id : null,  // ✅ Send `organizerId` on login
     });
   } catch (error) {

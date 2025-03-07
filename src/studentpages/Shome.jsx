@@ -23,20 +23,29 @@ function Shome() {
 
     const fetchData = async () => {
       try {
+
+        const studentId = localStorage.getItem('studentId'); // ✅ Get student ID from localStorage
+        console.log("Fetching events for student ID:", studentId);
+  
+        if (!studentId) {
+          console.error("No student ID found. Please log in again.");
+          return;
+        }
+
         const [hackathonRes, upcomingRes, participatedRes] = await Promise.all([
-          axiosInstance.get("/hackathons"),
-          axiosInstance.get('/user/registered-events?type=upcoming'),
-          axiosInstance.get('/user/participated-events?type=participated')
+          axiosInstance.get('/hackathons'),
+          axiosInstance.get(`/registeredhackathon/registeredhackathons/${studentId}?type=upcoming`),
+          axiosInstance.get(`/registeredhackathon/registeredhackathons/${studentId}?type=participated`)
         ]);
 
-        console.log("Full Hackathon Response:", hackathonRes.data);
+        console.log('Full Hackathon Response:', hackathonRes.data);
 
         const hackathons = hackathonRes.data;
-        setTeamHackathons(hackathons.filter(event => event.typeofhk.includes("Team")));
-        setSoloHackathons(hackathons.filter(event => event.typeofhk.includes("Solo")));
+        setTeamHackathons(hackathons.filter(event => event.typeofhk.includes('Team')));
+        setSoloHackathons(hackathons.filter(event => event.typeofhk.includes('Solo')));
 
-        console.log("Team Hackathons:", teamHackathons);
-      console.log("Solo Hackathons:", soloHackathons);
+        console.log('Team Hackathons:', teamHackathons);
+        console.log('Solo Hackathons:', soloHackathons);
 
         setUpcomingEvents(upcomingRes.data);
         setParticipatedEvents(participatedRes.data);
@@ -49,14 +58,48 @@ function Shome() {
   }, []);
 
   const handleRegister = (event) => {
-  const route = event.typeofhk === 'Team Hackathon (offline)' ? `/Tregpg/${event._id}` : `/Vregpg/${event._id}`;
+    const route = event.typeofhk === 'Team Hackathon (offline)' 
+      ? `/Tregpg/${event._id}` 
+      : `/Vregpg/${event._id}`;
     navigate(route);
   };
 
   const handleDetailsClick = (event) => {
-    setSelectedEvent(event);
+    let eventData = {};
+
+    if (event.hackathonId) {
+        //Mapping for registered events (upcoming/participated)
+        eventData = {
+            _id: event.hackathonId._id,
+            ename: event.hackathonId.ename,
+            date: formatDate(event.hackathonId.date),
+            venue: event.hackathonId.venue,
+            durofhk: event.hackathonId.durofhk,
+            prize: event.hackathonId.prize,
+            details: event.hackathonId.details,
+            regend: formatDate(event.hackathonId.regend),
+            maxTeamMembers: event.hackathonId.maxTeamMembers,
+            typeofhk: event.hackathonId.typeofhk,
+        };
+    } else {
+        //Mapping for regular hackathon events
+        eventData = {
+            _id: event._id,
+            ename: event.ename,
+            date: formatDate(event.date),
+            venue: event.venue,
+            durofhk: event.durofhk,
+            prize: event.prize,
+            details: event.details,
+            regend: formatDate(event.regend),
+            maxTeamMembers: event.maxTeamMembers,
+            typeofhk: event.typeofhk,
+        };
+    }
+    setSelectedEvent(eventData);
     setShowDetails(true);
-  };
+};
+
 
   const handleCloseDialog = () => {
     setShowDetails(false);
@@ -124,49 +167,57 @@ function Shome() {
         </div>
 
         <div className="w-full transform scale-80 container mx-auto p-4">
-          {/* Upcoming Registered Events */}
-          <section className="my-8">
-            <h2 className="text-3xl font-bold text-white text-center mb-4">Upcoming Registered Events</h2>
-            {upcomingEvents.length > 0 ? (
-              <div className="space-y-4">
-                {upcomingEvents.map((event) => (
-                  <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-800">{event.title}</h3>
-                      {event.members.length > 0 && (
-                        <p className="text-gray-600 text-sm"><strong>Members:</strong> {event.members.join(", ")}</p>
-                      )}
-                      <p className="text-gray-500 text-sm">Date: {formatDate(event.date)}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-white text-center">No upcoming events registered.</p>
-            )}
-          </section>
+         {/* Upcoming Registered Events */}
+<section className="my-8">
+  <h2 className="text-3xl font-bold text-white text-center mb-4">Upcoming Registered Events</h2>
+  {upcomingEvents.length > 0 ? (
+    <div className="space-y-4">
+      {upcomingEvents.map((event) => (
+        <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800">{event.hackathonId.ename}</h3>
+            <p className="text-gray-500 text-sm">Date: {formatDate(event.hackathonId.date)}</p>
+            <p className="text-gray-500 text-sm">Venue: {event.hackathonId.venue}</p>
+          </div>
+          <button 
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+            onClick={() => handleDetailsClick(event)}
+          >
+            Details
+          </button>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-white text-center">No upcoming events registered.</p>
+  )}
+</section>
 
-          {/* Participated Events */}
-          <section className="my-8">
-            <h2 className="text-3xl font-bold text-white text-center mb-4">Participated Events</h2>
-            {participatedEvents.length > 0 ? (
-              <div className="space-y-4">
-                {participatedEvents.map((event) => (
-                  <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-800">{event.title}</h3>
-                      {event.members.length > 0 && (
-                        <p className="text-gray-600 text-sm"><strong>Members:</strong> {event.members.join(", ")}</p>
-                      )}
-                      <p className="text-gray-500 text-sm">Date: {formatDate(event.date)}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-white text-center">No participated events.</p>
-            )}
-          </section>
+         {/* Participated Events */}
+<section className="my-8">
+  <h2 className="text-3xl font-bold text-white text-center mb-4">Participated Events</h2>
+  {participatedEvents.length > 0 ? (
+    <div className="space-y-4">
+      {participatedEvents.map((event) => (
+        <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800">{event.hackathonId.ename}</h3>
+            <p className="text-gray-500 text-sm">Date: {formatDate(event.hackathonId.date)}</p>
+            <p className="text-gray-500 text-sm">Venue: {event.hackathonId.venue}</p>
+          </div>
+          <button 
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+            onClick={() => handleDetailsClick(event)}
+          >
+            Details
+          </button>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-white text-center">No participated events.</p>
+  )}
+</section>
         </div>
 
         <Footer />

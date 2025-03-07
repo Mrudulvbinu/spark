@@ -7,6 +7,7 @@ const organizerUserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   address: { type: String, required: true },
   certificate: { type: String }, // Path to the uploaded certificate
+  userType: { type: String, required: true},
 });
 
 module.exports = mongoose.model("OrganizerUser", organizerUserSchema);
