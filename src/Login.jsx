@@ -8,12 +8,15 @@ import adminSVG from "/src/assets/admin.svg";
 
 const Login = () => {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); 
+  const [showPassword, setShowPassword] = useState(false); 
   const [error, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [userType, setUserType] = useState("student");
   const [isAdminLogin, setIsAdminLogin] = useState(false);
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     const loginContainer = document.getElementById("login-container");
@@ -31,6 +34,11 @@ const Login = () => {
     }
   }, []);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+
   const handleAdminClick = () => {
     setIsAdminLogin(!isAdminLogin);
     setUserType("student");
@@ -46,6 +54,7 @@ const Login = () => {
     setSuccessMessage("");
 
 
+  
     try {
       let endpoint = isAdminLogin ? "/auth/login/admin" : "/auth/login";
 
@@ -56,7 +65,7 @@ const Login = () => {
       );
 
       if (response.data.success) {
-        localStorage.setItem("token", response.data.token); // ✅ Store token
+        localStorage.setItem("token", response.data.token); // Store token
 
         // After successful login
         localStorage.setItem('studentId', response.data.studentId);
@@ -128,16 +137,34 @@ const Login = () => {
               />
             </div>
 
-            <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
               <label className="text-lg font-semibold text-gray-700 w-1/3" htmlFor="password">Password</label>
+              <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-2/3 p-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
                 required
               />
+              <button 
+      type="button" 
+      onClick={togglePasswordVisibility} 
+      className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+    >
+      {showPassword ? (
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M17.94 17.94A10 10 0 0112 20c-5 0-9.27-3.11-11-7.5 1.72-4.39 6-7.5 11-7.5a10 10 0 015.94 2.06"/>
+          <path d="M3 3l18 18"/>
+        </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      )}
+    </button></div>
             </div>
 
             {error && <div className="text-red-500 text-center mt-2">{error}</div>}
