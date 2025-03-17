@@ -24,7 +24,7 @@ function Shome() {
     const fetchData = async () => {
       try {
 
-        const studentId = localStorage.getItem('studentId'); // ✅ Get student ID from localStorage
+        const studentId = localStorage.getItem('studentId'); 
         console.log("Fetching events for student ID:", studentId);
   
         if (!studentId) {
@@ -64,7 +64,7 @@ function Shome() {
     navigate(route);
   };
 
-  const handleDetailsClick = (event) => {
+  const handleDetailsClick = (event, isRegisteredEvent = false) => {
     let eventData = {};
 
     if (event.hackathonId) {
@@ -80,6 +80,7 @@ function Shome() {
             regend: formatDate(event.hackathonId.regend),
             maxTeamMembers: event.hackathonId.maxTeamMembers,
             typeofhk: event.hackathonId.typeofhk,
+            isRegisteredEvent: true,
         };
     } else {
         //Mapping for regular hackathon events
@@ -94,6 +95,7 @@ function Shome() {
             regend: formatDate(event.regend),
             maxTeamMembers: event.maxTeamMembers,
             typeofhk: event.typeofhk,
+            isRegisteredEvent: false,
         };
     }
     setSelectedEvent(eventData);
@@ -162,71 +164,93 @@ function Shome() {
               </div>
             ))
           ) : (
-            <p className="text-white text-center text-xl">No solo hackathons available.</p>
+            <p className="text-white text-center text-xl" data-aos="fade-up">No solo hackathons available.</p>
           )}
         </div>
-
         <div className="w-full transform scale-80 container mx-auto p-4">
-         {/* Upcoming Registered Events */}
-<section className="my-8">
-  <h2 className="text-3xl font-bold text-white text-center mb-4">Upcoming Registered Events</h2>
-  {upcomingEvents.length > 0 ? (
-    <div className="space-y-4">
-      {upcomingEvents.map((event) => (
-        <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-800">{event.hackathonId.ename}</h3>
-            <p className="text-gray-500 text-sm">Date: {formatDate(event.hackathonId.date)}</p>
-            <p className="text-gray-500 text-sm">Venue: {event.hackathonId.venue}</p>
-          </div>
-          <button 
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-            onClick={() => handleDetailsClick(event)}
+  {/* Upcoming Registered Events */}
+  <section className="my-8">
+    <h2 className="text-6xl font-bold text-white text-center mb-4" data-aos="fade-up">
+      Upcoming Registered Events
+    </h2>
+    {upcomingEvents.length > 0 ? (
+      <div className="space-y-4">
+        {upcomingEvents.map((event) => (
+          <div 
+            key={event._id} 
+            className="bg-[#f2f2be] rounded-lg shadow-lg p-4 w-2/3 mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
+            data-aos="fade-up"
           >
-            Details
-          </button>
-        </div>
-      ))}
-    </div>
-  ) : (
-    <p className="text-white text-center">No upcoming events registered.</p>
-  )}
-</section>
+            {/* Event Details */}
+            <div className="flex flex-col sm:flex-row sm:items-center w-full justify-between space-y-2 sm:space-y-0 px-4">
+              <h3 className="text-xl font-semibold text-gray-800 text-center sm:text-left">{event.hackathonId.ename}</h3>
+              <p className="text-gray-700 text-sm text-center sm:text-left">Date: {formatDate(event.hackathonId.date)}</p>
+              <p className="text-gray-700 text-sm text-center sm:text-left">Venue: {event.hackathonId.venue}</p>
+            </div>
 
-         {/* Participated Events */}
-<section className="my-8">
-  <h2 className="text-3xl font-bold text-white text-center mb-4">Participated Events</h2>
-  {participatedEvents.length > 0 ? (
-    <div className="space-y-4">
-      {participatedEvents.map((event) => (
-        <div key={event._id} className="bg-white rounded-full shadow-lg p-4 flex justify-between items-center w-2/3 mx-auto">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-800">{event.hackathonId.ename}</h3>
-            <p className="text-gray-500 text-sm">Date: {formatDate(event.hackathonId.date)}</p>
-            <p className="text-gray-500 text-sm">Venue: {event.hackathonId.venue}</p>
+            {/* Details Button (Responsive) */}
+            <div className="flex justify-center sm:justify-end w-full sm:w-auto">
+              <button 
+                className="bg-white text-blue-700 px-4 py-2 rounded-lg font-bold w-full sm:w-auto"
+                onClick={() => handleDetailsClick(event, true)}
+              >
+                Details
+              </button>
+            </div>
           </div>
-          <button 
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-            onClick={() => handleDetailsClick(event)}
+        ))}
+      </div>
+    ) : (
+      <p className="text-white text-center" data-aos="fade-up">No upcoming events registered.</p>
+    )}
+  </section>
+
+  {/* Participated Events */}
+  <section className="my-8">
+    <h2 className="text-6xl font-bold text-white text-center mb-4" data-aos="fade-up">
+      Participated Events
+    </h2>
+    {participatedEvents.length > 0 ? (
+      <div className="space-y-4">
+        {participatedEvents.map((event) => (
+          <div 
+            key={event._id} 
+            className="bg-[#dbdcdb] rounded-lg shadow-lg p-4 w-2/3 mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
+            data-aos="fade-up"
           >
-            Details
-          </button>
-        </div>
-      ))}
-    </div>
-  ) : (
-    <p className="text-white text-center">No participated events.</p>
-  )}
-</section>
-        </div>
+            {/* Event Details */}
+            <div className="flex flex-col sm:flex-row sm:items-center w-full justify-between space-y-2 sm:space-y-0 px-4">
+              <h3 className="text-xl font-semibold text-gray-800 text-center sm:text-left">{event.hackathonId.ename}</h3>
+              <p className="text-gray-700 text-sm text-center sm:text-left">Date: {formatDate(event.hackathonId.date)}</p>
+              <p className="text-gray-700 text-sm text-center sm:text-left">Venue: {event.hackathonId.venue}</p>
+            </div>
+
+            {/* Details Button (Responsive) */}
+            <div className="flex justify-center sm:justify-end w-full sm:w-auto">
+              <button 
+                className="bg-white text-blue-700 px-4 py-2 rounded-md font-bold w-full sm:w-auto"
+                onClick={() => handleDetailsClick(event, true)}
+              >
+                Details
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p className="text-white text-center" data-aos="fade-up">No participated events.</p>
+    )}
+  </section>
+</div>
+
 
         <Footer />
       </div>
 
-      {/* Event Details Dialog */}
-      {showDetails && selectedEvent && (
+   {/* Event Details Dialog */}
+   {showDetails && selectedEvent && (
         <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={handleCloseDialog}>
-          <div className="absolute inset-0" style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(5px)' }}></div>
+          <div className="absolute inset-0" style={{ backgroundImage:`url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(5px)' }}></div>
           <div className="absolute inset-0 bg-opacity-20"></div>
           <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-md w-full animate-fade-zoom z-10" onClick={(e) => e.stopPropagation()}>
             <button onClick={handleCloseDialog} className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">✖</button>
@@ -240,12 +264,17 @@ function Shome() {
             <p className="text-lg"><strong>Last date of registration:</strong> {selectedEvent.regend}</p>
             {selectedEvent.typeofhk === 'Team Hackathon (offline)' && (
             <p className="text-lg"><strong>Maximum number of participants:</strong> {selectedEvent.maxTeamMembers}</p>)}
-            <div className="flex justify-center mt-6">
-              <button onClick={() => handleRegister(selectedEvent)} className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Register</button>
-            </div>
-          </div>
+      
+      {/* Conditionally Show Register Button */}
+      {!selectedEvent.isRegisteredEvent && (
+        <div className="flex justify-center mt-6">
+          <button onClick={() => handleRegister(selectedEvent)} className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Register</button>
         </div>
       )}
+    </div>
+  </div>
+)}
+
     </section>
   );
 }
