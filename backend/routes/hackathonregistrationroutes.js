@@ -9,7 +9,7 @@ const {
 } = require('../controllers/registrationcontroller');
 
 
-// ✅ Unified Registration Endpoint for Solo and Team Hackathons
+// Unified Registration Endpoint for Solo and Team Hackathons
 router.post('/register', async (req, res) => {
   try {
     console.log("Incoming Registration Data:", req.body);
@@ -34,13 +34,13 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Hackathon ID is required.' });
     }
 
-    // 🔍 Fetch Hackathon to get organizerId
+    //  Fetch Hackathon to get organizerId
     const hackathon = await Hackathon.findById(hackathonId);
     if (!hackathon) {
       return res.status(404).json({ message: 'Hackathon not found.' });
     }
 
-    // ✅ Ensure organizerId exists
+    // Ensure organizerId exists
     if (!hackathon.organizerId) {
       return res.status(400).json({ message: 'Organizer ID is missing in the Hackathon data.' });
     }
@@ -88,10 +88,10 @@ if (!studentId || studentId === 'null') {
   }
 });
 
-// ✅ GET: Fetch all registrations for a specific hackathon
+// Fetch all registrations for a specific hackathon
 router.get('/hackathon/:hackathonId', getHackathonRegistrations);
 
-// ✅ GET: Fetch hackathons registered by a specific student
+// Fetch hackathons registered by a specific student
 router.get('/registeredhackathons/:studentId', async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -118,5 +118,46 @@ router.get('/registeredhackathons/:studentId', async (req, res) => {
       res.status(500).json({ message: 'Server error.', error: error.message });
   }
 });
+
+// Fetch upcoming events hosted by a specific organizer
+router.get("/organizer/:organizerId/upcoming-events", async (req, res) => {
+  try {
+    const { organizerId } = req.params;
+
+    const upcomingEvents = await Hackathon.find({
+      organizerId
+    });
+
+    res.status(200).json(upcomingEvents);
+  } catch (error) {
+    console.error("Error fetching upcoming events:", error);
+    res.status(500).json({ message: "Server error.", error: error.message });
+  }
+});
+
+
+ //Route for Fetching Registered Students by Hackathon ID
+router.get("/registeredhackathon/hackathon/:hackathonId", async (req, res) => {
+  try {
+    const { hackathonId } = req.params;
+    console.log("📌 Fetching students for Hackathon ID:", hackathonId);
+
+    if (!hackathonId || hackathonId === "undefined") {
+      return res.status(400).json({ message: "Invalid Hackathon ID." });
+    }
+
+    const registeredStudents = await RegisteredHackathon.find({ hackathonId });
+
+    if (!registeredStudents.length) {
+      return res.status(404).json({ message: "No students registered for this hackathon." });
+    }
+
+    res.json(registeredStudents);
+  } catch (error) {
+    console.error("❌ Error fetching students:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 module.exports = router;

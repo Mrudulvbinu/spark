@@ -15,6 +15,7 @@ import Ohome from './organizerpages/Ohome.jsx';
 import Hosthk from './organizerpages/hosthk.jsx';
 import Revappro from './organizerpages/revappro.jsx';
 import Approreg from './organizerpages/approreg.jsx';
+import RegStud from './organizerpages/regstud.jsx';
 
 // Admin Pages
 import Ahome from './adminpages/Ahome.jsx';
@@ -44,6 +45,8 @@ const App = () => {
         <Route path="/hosthk" element={<Hosthk />} />
         <Route path="/revappro" element={<Revappro />} />
         <Route path="/approreg" element={<Approreg />} />
+        <Route path="/regstud/:hackathonId" element={<RegStud />} />
+
 
         {/* Admin Routes */}
         <Route path="/ahome" element={<Ahome />} />

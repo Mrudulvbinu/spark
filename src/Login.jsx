@@ -76,6 +76,7 @@ const Login = () => {
           } else if (userType === "student") {
             navigate("/shome");
           } else if (userType === "organizer") {
+            localStorage.setItem("organizerId", response.data.organizerId);
             navigate("/ohome");
           }
         }, 1500);

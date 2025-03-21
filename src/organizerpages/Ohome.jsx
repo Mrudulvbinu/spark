@@ -1,20 +1,62 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axiosInstance from "../axiosinstance"; 
 import img from "/src/assets/img3.jpg";
 import Headerbar from "/src/components/headerbar.jsx";
 import Navbar from "/src/components/navbar.jsx";
 import Footer from "/src/components/footer.jsx";
 import AOS from 'aos';
-import 'aos/dist/aos.css';  // Import AOS styles
+import 'aos/dist/aos.css';
 
 function Ohome() {
+  const navigate = useNavigate();
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [organizerId, setOrganizerId] = useState(null);
+
   useEffect(() => {
-    AOS.init({
-      duration: 1000, // Duration of the animation
-      easing: 'ease-in-out', // Easing function for the animation
-      once: true, // Animation should only happen once
-    });
+    AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
+
+    let storedOrganizerId = localStorage.getItem("organizerId");
+
+    if (!storedOrganizerId || storedOrganizerId === "null" || storedOrganizerId === "undefined") {
+      console.error(" No valid organizer ID found. Please log in again.");
+      setError("Organizer ID not found. Please log in again.");
+      setLoading(false);
+      return;
+    }
+
+    setOrganizerId(storedOrganizerId); 
+
+    console.log(" Using Organizer ID:", storedOrganizerId);
+
+    const fetchUpcomingEvents = async () => {
+      try {
+        console.log(` Fetching upcoming events for Organizer ID: ${storedOrganizerId}`);
+        
+        const response = await axiosInstance.get(`/registeredhackathon/organizer/${storedOrganizerId}/upcoming-events`);
+
+        console.log(" API Response:", response.data);
+
+        if (!response.data || response.data.length === 0) {
+          console.warn("⚠ No upcoming events found.");
+          setError("No upcoming events available.");
+          setUpcomingEvents([]); // Ensure empty array is set
+        } else {
+          setUpcomingEvents(response.data);
+        }
+      } catch (err) {
+        console.error(" Error fetching upcoming events:", err.response?.data || err.message);
+        setError(`Failed to fetch upcoming events: ${err.response?.data?.message || err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUpcomingEvents();
   }, []);
+
 
   return (
     <div className="relative text-white">
@@ -63,30 +105,48 @@ function Ohome() {
       {/* Spacing between sections */}
       <div className="mt-12"></div>
 
-      {/* Upcoming Events */}
-      <h2 className="text-6xl font-bold text-center text-white mt-20 mb-8" data-aos="fade-up">Upcoming Events</h2>
-      <div className="transform scale-85 flex flex-col space-y-6 justify-center" data-aos="fade-up">
-        {[ 
-          { title: "CodeRed 2025", date: "4/4/2025", details: "Additional details about the event can go here.", status: "Students Registered - 200" },
-          { title: "Hackat25", date: "12/5/2025", details: "Details for this event. Aligned neat and readable.", status: "Students Registered - 120" },
-          { title: "Project25", date: "2/3/2025", details: "Any extra details about this event go here, modified automatically.", status: "Students Registered - 55" }
-        ].map((event, index) => (
-          <div key={index} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex flex-col sm:flex-row justify-between items-center" data-aos="fade-up">
-            <div className="flex-1 text-left">
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">{event.title}</h2>
-            </div>
-            <div className="flex-1 text-left sm:ml-4 ml-2">
-              <p className="text-gray-600">{event.date}</p>
-            </div>
-            <div className="flex-1 text-left sm:ml-4 ml-2">
-              <p className="text-gray-600">{event.details}</p>
-            </div>
-            <div className="flex-none text-right ml-4 flex flex-col sm:flex-row items-end">
-              <p className="text-gray-600">{event.status}</p>
-            </div>
-          </div>
-        ))}
+
+
+ {/* Upcoming Events Header */}
+ <h2 className="text-6xl font-bold text-center text-white mt-20 mb-8" data-aos="fade-up">
+        Upcoming Events
+      </h2>
+
+      {/* Loading State */}
+      {loading && (
+        <p className="text-center text-white text-xl animate-pulse">Loading events...</p>
+      )}
+
+      {/* Error State */}
+      {error && !loading && (
+        <p className="text-red-500 text-center text-xl">{error}</p>
+      )}
+
+      {/* Upcoming Events List */}
+      {!loading && !error && upcomingEvents.length > 0 ? (
+        <div className="transform scale-85 flex flex-col space-y-6 justify-center" data-aos="fade-up">
+          {upcomingEvents.map((event) => (
+            <div key={event._id} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
+              <div className="flex-1 text-left">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">{event.ename}</h2>
+              </div>
+              <div className="flex-1 text-left sm:ml-4 ml-2">
+                <p className="text-gray-600">📅 Date: {event.date ? new Date(event.date).toLocaleDateString() : "N/A"}</p>
+              </div>
+              <div className="flex-1 text-left sm:ml-4 ml-2">
+                <p className="text-gray-600">{event.isTeamHackathon === true ? "📍 Venue" : "💻 Platform"}: {event.venue || "N/A"}</p>
+              </div>
+      <div className="flex-none ml-auto">
+        <button   onClick={() => navigate(`/regstud/${event._id}`)} 
+        className="bg-blue-500 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 shadow-md">
+        Registered Students</button>
       </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        !loading && !error && <p className="text-white text-center text-xl">No registered hackathons yet.</p>
+      )}
 
       {/* Conducted Events */}
       <h2 className="text-6xl font-bold text-center text-white mt-20 mb-8" data-aos="fade-up">Conducted Events</h2>
