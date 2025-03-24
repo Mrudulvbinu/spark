@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://spark25.onrender.com", "http://localhost:5173"],
+    origin: ["https://spark25.onrender.com/api", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
