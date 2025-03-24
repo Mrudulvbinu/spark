@@ -1,9 +1,18 @@
 const express = require("express");
+const cors = require("cors");
 const router = express.Router();
 const Hackathon = require("../modules/hackathon");
 const mongoose = require("mongoose");
 const verifyToken = require("../middleware/authmiddleware");
 
+
+router.use(
+  cors({
+    origin: ["https://spark25.onrender.com"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 router.get("/", async (req, res) => {
   try {
