@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "./axiosinstance";
 import vid1 from "/src/assets/vid1.mp4";
-import logo from "/src/assets/logo.png";
+import logo from "/src/assets/sparkventure.svg";
 import Header from "/src/components/header.jsx";
 import adminSVG from "/src/assets/admin.svg";
 

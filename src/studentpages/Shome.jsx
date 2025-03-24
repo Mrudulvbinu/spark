@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import img from "/src/assets/im1.jpg";
 import Headerbar from "/src/components/headerbar.jsx";
 import Navbar from "/src/components/navbar.jsx";
 import Footer from "/src/components/footer.jsx";
+import front from "/src/assets/front.png";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axiosInstance from '../axiosinstance';
@@ -129,66 +129,85 @@ function Shome() {
   const formatDate = (date) => new Date(date).toLocaleDateString();
 
   return (
-    <section className="w-full mx-auto p-0 relative"
-      style={{
-        backgroundImage: `url(${img})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        scrollBehavior: 'smooth',
-        backgroundAttachment: 'fixed',
-      }}
-    >
-      <div className="absolute inset-0 bg-black opacity-30 z-0"></div>
+    <section className="w-full mx-auto p-0 relative">
 
       <div className="relative z-10">
         <Headerbar />
         <Navbar />
 
+      <div className="flex flex-col md:flex-row items-center justify-between px-8 md:px-16 lg:px-10 py-2 bg-white shadow-lg">
+        <div className="md:w-1/2 text-left mt-[-20px] md:mt-[-100px]" data-aos="fade-right">
+          <h2 className="text-5xl font-extrabold text-red-700 leading-tight">
+            Sparkventure 2025
+          </h2>
+          <h3 className="text-4xl font-bold text-black mt-2">
+            The Innovation Journey Starts Now!
+          </h3>
+          <p className="text-lg text-gray-700 mt-4 leading-relaxed">
+            The countdown has begun! Sparkventure 2025 is officially here, 
+            and we're calling all engineering and computer science students in Kerala 
+            to step up and showcase their groundbreaking ideas.
+          </p>
+          <p class="text-xl md:text-2xl font-bold bg-gradient-to-r from-red-600 to-amber-600
+          bg-clip-text text-transparent animate-pulse">Compete. Innovate. Transform.</p>
+        </div>
+
+        <div className="md:w-1/2 flex justify-center mt-[-20px] md:mt-[-20px]" data-aos="fade-left">
+        <div class="relative group">
+            <div class="absolute inset-0 rounded-3xl bg-primary/20 blur-2xl group-hover:blur-3xl transition-all duration-500">
+            </div>
+            <img alt="Sparkventure 2025 Image" width="500" height="500" decoding="async"
+             class="relative w-full max-w-sm h-auto drop-shadow-2xl transition-all duration-500
+              group-hover:scale-105 group-hover:rotate-1 rounded-2xl" src={front}></img>
+              </div>
+        </div>
+      </div>
+
         {/* Team Hackathons */}
-        <h2 className="text-6xl font-bold text-center text-white mt-20" data-aos="fade-up">Team Hackathons</h2>
+        <h2 className="text-6xl font-bold text-center text-black mt-20" data-aos="fade-up">Team Hackathons</h2>
         <div className="flex flex-wrap justify-center gap-6 mt-10">
           {teamHackathons.length > 0 ? (
             teamHackathons.map((event) => (
-              <div key={event._id} className="bg-blue-900 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
+              <div key={event._id} className="bg-gradient-to-r from-red-500 to-orange-400 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
                 <h3 className="text-2xl font-bold">{event.ename}</h3>
                 <p className="text-lg">📅 Date: {event.date}</p>
                 <p className="text-lg">📍 Venue: {event.venue}</p>
                 <p className="text-lg">🏆 Prize: {event.prize}</p>
                 <div className="flex justify-between mt-3">
-                  <button onClick={() => handleRegister(event)} className="bg-white text-blue-700 px-4 py-2 rounded-lg font-bold">Register</button>
-                  <button onClick={() => handleDetailsClick(event)} className="bg-white text-blue-700 px-4 py-2 rounded-lg font-bold">Details</button>
+                  <button onClick={() => handleRegister(event)} className="bg-white text-red-600 px-4 py-2 rounded-lg font-bold">Register</button>
+                  <button onClick={() => handleDetailsClick(event)} className="bg-white text-black px-4 py-2 rounded-lg font-bold">Details</button>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-white text-center text-xl">No team hackathons available.</p>
+            <p className="text-black text-center text-xl">No team hackathons available.</p>
           )}
         </div>
 
         {/* Solo Hackathons */}
-        <h2 className="text-6xl font-bold text-center text-white mt-20" data-aos="fade-up">Virtual Solo Hackathons</h2>
+        <h2 className="text-6xl font-bold text-center text-black mt-20" data-aos="fade-up">Virtual Solo Hackathons</h2>
         <div className="flex flex-wrap justify-center gap-6 mt-10">
           {soloHackathons.length > 0 ? (
             soloHackathons.map((event) => (
-              <div key={event._id} className="bg-green-800 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
+              <div key={event._id} className="bg-gradient-to-r from-amber-500 to-red-600 text-white p-6 rounded-lg shadow-lg max-w-md" data-aos="fade-up">
                 <h3 className="text-2xl font-bold">{event.ename}</h3>
                 <p className="text-lg">📅 Date: {event.date}</p>
                 <p className="text-lg">💻 Platform: {event.venue}</p>
                 <p className="text-lg">🏆 Prize: {event.prize}</p>
                 <div className="flex justify-between mt-3">
-                  <button onClick={() => handleRegister(event)} className="bg-white text-green-600 px-4 py-2 rounded-lg font-bold">Register</button>
-                  <button onClick={() => handleDetailsClick(event)} className="bg-white text-green-600 px-4 py-2 rounded-lg font-bold">Details</button>
+                  <button onClick={() => handleRegister(event)} className="bg-white text-red-600 px-4 py-2 rounded-lg font-bold">Register</button>
+                  <button onClick={() => handleDetailsClick(event)} className="bg-white text-black px-4 py-2 rounded-lg font-bold">Details</button>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-white text-center text-xl" data-aos="fade-up">No solo hackathons available.</p>
+            <p className="text-black text-center text-xl" data-aos="fade-up">No solo hackathons available.</p>
           )}
         </div>
         <div className="w-full transform scale-80 container mx-auto p-4">
   {/* Upcoming Registered Events */}
   <section className="my-8">
-    <h2 className="text-6xl font-bold text-white text-center mb-10" data-aos="fade-up">
+    <h2 className="text-6xl font-bold text-black text-center mb-10" data-aos="fade-up">
       Upcoming Registered Events
     </h2>
     {upcomingEvents.length > 0 ? (
@@ -196,12 +215,12 @@ function Shome() {
         {upcomingEvents.map((event) => (
           <div 
             key={event._id} 
-            className="bg-[#f2f2be] rounded-lg shadow-lg p-4 w-2/3 mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
+            className="bg-gradient-to-r from-red-600 to-yellow-400 rounded-lg shadow-lg p-4 w-2/3 mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
             data-aos="fade-up"
           >
             {/* Event Details */}
             <div className="flex flex-col sm:flex-row sm:items-center w-full justify-between space-y-2 sm:space-y-0 px-4">
-              <h3 className="text-xl font-semibold text-gray-800 text-center sm:text-left">{event.hackathonId.ename}</h3>
+              <h3 className="text-xl font-semibold text-white text-center sm:text-left">{event.hackathonId.ename}</h3>
               <p className="text-gray-700 text-sm text-center sm:text-left">Date: {formatDate(event.hackathonId.date)}</p>
               <p className="text-gray-700 text-sm text-center sm:text-left">Venue: {event.hackathonId.venue}</p>
             </div>
@@ -209,7 +228,7 @@ function Shome() {
             {/* Details Button (Responsive) */}
             <div className="flex justify-center sm:justify-end w-full sm:w-auto">
               <button 
-                className="bg-white text-blue-700 px-4 py-2 rounded-lg font-bold w-full sm:w-auto"
+                className="bg-white text-red-700 px-4 py-2 rounded-lg font-bold w-full sm:w-auto"
                 onClick={() => handleDetailsClick(event, true)}
               >
                 Details
@@ -219,13 +238,13 @@ function Shome() {
         ))}
       </div>
     ) : (
-      <p className="text-white text-center" data-aos="fade-up">No upcoming events registered.</p>
+      <p className="text-black text-center" data-aos="fade-up">No upcoming events registered.</p>
     )}
   </section>
 
   {/* Participated Events */}
   <section className="my-8 mt-20">
-    <h2 className="text-6xl font-bold text-white text-center mb-10 mt-30" data-aos="fade-up">
+    <h2 className="text-6xl font-bold text-black text-center mb-10 mt-30" data-aos="fade-up">
     Participated Events
     </h2>
     {participatedEvents.length > 0 ? (
@@ -233,12 +252,12 @@ function Shome() {
         {participatedEvents.map((event) => (
           <div 
             key={event._id} 
-            className="bg-[#dbdcdb] rounded-lg shadow-lg p-4 w-2/3 mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
+            className="bg-gradient-to-r from-yellow-500 to-red-600 rounded-lg shadow-lg p-4 w-2/3 mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
             data-aos="fade-up"
           >
             {/* Event Details */}
             <div className="flex flex-col sm:flex-row sm:items-center w-full justify-between space-y-2 sm:space-y-0 px-4">
-              <h3 className="text-xl font-semibold text-gray-800 text-center sm:text-left">{event.hackathonId.ename}</h3>
+              <h3 className="text-xl font-semibold text-white text-center sm:text-left">{event.hackathonId.ename}</h3>
               <p className="text-gray-700 text-sm text-center sm:text-left">Date: {formatDate(event.hackathonId.date)}</p>
               <p className="text-gray-700 text-sm text-center sm:text-left">Venue: {event.hackathonId.venue}</p>
             </div>
@@ -246,7 +265,7 @@ function Shome() {
             {/* Details Button (Responsive) */}
             <div className="flex justify-center sm:justify-end w-full sm:w-auto">
               <button 
-                className="bg-white text-blue-700 px-4 py-2 rounded-md font-bold w-full sm:w-auto"
+                className="bg-white text-red-700 px-4 py-2 rounded-md font-bold w-full sm:w-auto"
                 onClick={() => handleDetailsClick(event, true)}
               >
                 Details
@@ -267,7 +286,7 @@ function Shome() {
    {/* Event Details Dialog */}
    {showDetails && selectedEvent && (
         <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={handleCloseDialog}>
-          <div className="absolute inset-0" style={{ backgroundImage:`url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(5px)' }}></div>
+          <div className="absolute inset-0 bg-red-50"></div>
           <div className="absolute inset-0 bg-opacity-20"></div>
           <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-md w-full animate-fade-zoom z-10" onClick={(e) => e.stopPropagation()}>
             <button onClick={handleCloseDialog} className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">✖</button>
@@ -285,7 +304,7 @@ function Shome() {
       {/* Conditionally Show Register Button */}
       {!selectedEvent.isRegisteredEvent && (
         <div className="flex justify-center mt-6">
-          <button onClick={() => handleRegister(selectedEvent)} className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Register</button>
+          <button onClick={() => handleRegister(selectedEvent)} className="bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-800">Register</button>
         </div>
       )}
     </div>

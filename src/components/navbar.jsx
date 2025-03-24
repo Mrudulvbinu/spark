@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import spark from '../assets/sparkventure.svg';
 import { Link as ScrollLink } from 'react-scroll';
 
 const Navbar = () => {
@@ -11,18 +11,19 @@ const Navbar = () => {
       localStorage.removeItem("token"); 
       localStorage.removeItem("organizerId");
       sessionStorage.clear();
-      navigate('/', { replace: true }); 
+      navigate('/', { replace: true });
+       window.location.reload();
   };
 
   return (
-    <nav className="bg-white shadow-md p-2 sm:p-2">
+    <nav className="sticky top-0 z-50 w-full bg-transparent backdrop-blur-md text-black dark:text-white shadow-md p-2 sm:p-4" style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }}>
       <div className="container mx-auto flex justify-between items-center">
         <div className="logo">
-          <img src={logo} alt="Spark Venture Logo" className="w-40 h-auto" />
+          <img src={spark} alt="Spark Venture Logo" className="w-40 h-auto" />
         </div>
-        <ul className="flex space-x-4 sm:space-x-6 text-green-800 text-sm sm:text-base">
+        <ul className="flex space-x-4 sm:space-x-6 text-red-800 text-sm sm:text-base">
           <li>
-            <Link to="/about" className="hover:text-green-600 font-semibold">
+            <Link to="/about" className="hover:text-red-600 font-semibold">
               About
             </Link>
           </li>

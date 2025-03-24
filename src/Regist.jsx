@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
-import logo from "/src/assets/logo.png";
+import logo from "/src/assets/sparkventure.svg";
 import axiosInstance from "./axiosinstance";
 
 const Regist = () => {
@@ -58,8 +58,8 @@ const Regist = () => {
 
       <div className="relative z-2 flex flex-col items-center justify-center w-full text-center px-4 py-6 sm:px-8 sm:py-10">
         <div className="w-full text-center z-5 mt-1 lg:mt-0.2">
-          <h2 className="text-3xl font-bold text-black">Spark Venture</h2>
-          <p className="text-md text-gray-700 mt-1">Welcome to Spark Venture. Register now and join the innovation!</p>
+          <h2 className="text-3xl font-bold text-black">Sparkventure</h2>
+          <p className="text-md text-gray-700 mt-1">Welcome to Sparkventure. Register now and join the innovation!</p>
         </div>
 
         <div className="relative z-2 w-full max-w-sm md:max-w-sm lg:max-w-md px-2 py-2 sm:px-8 sm:py-10 bg-white rounded-lg shadow-xl mt-6 lg:mt-4">

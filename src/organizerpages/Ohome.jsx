@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from "../axiosinstance"; 
-import img from "/src/assets/img3.jpg";
+import img from "/src/assets/img4.jpeg";
 import Headerbar from "/src/components/headerbar.jsx";
 import Navbar from "/src/components/navbar.jsx";
 import Footer from "/src/components/footer.jsx";
@@ -74,7 +74,7 @@ function Ohome() {
 
 
   return (
-    <div className="relative text-white">
+    <div className="relative text-black">
       <div className="absolute inset-0 z-[-1]">
         <div
           className="h-full w-full bg-cover bg-center bg-fixed"
@@ -82,14 +82,14 @@ function Ohome() {
             backgroundImage: `url(${img})`,
           }}
         >
-          <div className="absolute inset-0 bg-black opacity-30"></div>
+          <div className="absolute inset-0 bg-white opacity-90"></div>
         </div>
       </div>
 
       <div className="w-full"><Headerbar /></div>
       <div className="w-full"><Navbar /></div>
 
-      <h2 className="text-5xl font-bold text-center text-white mt-15 mb-20" data-aos="fade-up">
+      <h2 className="text-5xl font-bold text-center text-black mt-15 mb-20" data-aos="fade-up">
         Conduct Team Hackathon and Virtual Solo Hackathon
       </h2>
 
@@ -121,13 +121,13 @@ function Ohome() {
       <div className="mt-12"></div>
 
  {/* Upcoming Events Header */}
- <h2 className="text-6xl font-bold text-center text-white mt-20 mb-8" data-aos="fade-up">
+ <h2 className="text-6xl font-bold text-center text-black mt-20 mb-8" data-aos="fade-up">
         Upcoming Events
       </h2>
 
       {/* Loading State */}
       {loading && (
-        <p className="text-center text-white text-xl animate-pulse">Loading events...</p>
+        <p className="text-center text-black text-xl animate-pulse">Loading events...</p>
       )}
 
       {/* Error State */}
@@ -158,11 +158,11 @@ function Ohome() {
           ))}
         </div>
       ) : (
-        !loading && !error && <p className="text-white text-center text-xl">No registered hackathons yet.</p>
+        !loading && !error && <p className="text-black text-center text-xl">No registered hackathons yet.</p>
       )}
 
       {/* Conducted Events */}
-      <h2 className="text-6xl font-bold text-center text-white mt-20 mb-8" data-aos="fade-up">Conducted Events</h2>
+      <h2 className="text-6xl font-bold text-center text-black mt-20 mb-8" data-aos="fade-up">Conducted Events</h2>
       <div className="transform scale-85 flex flex-col space-y-6 justify-center" data-aos="fade-up">
         {[ 
           { title: "CodeRed 2024", date: "22/12/2024", details: "Additional details about the event can go here." },

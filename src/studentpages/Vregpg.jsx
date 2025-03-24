@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../axiosinstance";
 import { useNavigate, useParams } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
-import logo from "/src/assets/logo.png";
+import logo from "/src/assets/sparkventure.svg";
 import Header from "/src/components/header.jsx";
 
 const Vregpg = () => {
