@@ -74,7 +74,7 @@ const RegStud = () => {
       <tr key={reg._id} className="border-b border-gray-300 hover:bg-gray-100 transition-all">
         <td className="p-3">{index + 1}</td>
         
-        //Team Hackathon: Show Team Name & Leader Name
+       {/* Team Hackathon: Show Team Name & Leader Name */}
         {reg.isTeam ? (
           <>
             <td className="p-3 font-semibold text-gray-800">{reg.teamName || "N/A"}</td>  
@@ -82,13 +82,13 @@ const RegStud = () => {
           </>
         ) : (
           <>
-            //Solo Hackathon: Show Participant Name & Email
+            {/*Solo Hackathon: Show Participant Name & Email*/}
             <td className="p-3 font-semibold text-gray-800">{reg.leaderName || "N/A"}</td>
             <td className="p-3 text-gray-600">{reg.leaderEmail || "N/A"}</td>
           </>
         )}
 
-        //Type of Hackathon 
+        {/*Type of Hackathon */}
         <td className="p-3">
           {reg.isTeam ? (
             <span className="px-3 py-1 bg-yellow-500 text-gray-900 rounded-full text-sm">Team</span>
@@ -97,7 +97,7 @@ const RegStud = () => {
           )}
         </td>
 
-        // Details Button 
+        {/* Details Button */}
         <td className="p-3 text-center">
           <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition-all">
             Details

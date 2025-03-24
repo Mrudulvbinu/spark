@@ -19,6 +19,24 @@ function Shome() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/", { replace: true });
+      
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function () {
+        navigate("/");
+      };
+      window.onpushstate = function () {
+        navigate("/");
+      };
+    } else {
+      window.onpopstate = null;
+      window.onpushstate = null;  
+    }
+
+
     AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
 
     const fetchData = async () => {
@@ -170,7 +188,7 @@ function Shome() {
         <div className="w-full transform scale-80 container mx-auto p-4">
   {/* Upcoming Registered Events */}
   <section className="my-8">
-    <h2 className="text-6xl font-bold text-white text-center mb-4" data-aos="fade-up">
+    <h2 className="text-6xl font-bold text-white text-center mb-10" data-aos="fade-up">
       Upcoming Registered Events
     </h2>
     {upcomingEvents.length > 0 ? (
@@ -206,9 +224,9 @@ function Shome() {
   </section>
 
   {/* Participated Events */}
-  <section className="my-8">
-    <h2 className="text-6xl font-bold text-white text-center mb-4" data-aos="fade-up">
-      Participated Events
+  <section className="my-8 mt-20">
+    <h2 className="text-6xl font-bold text-white text-center mb-10 mt-30" data-aos="fade-up">
+    Participated Events
     </h2>
     {participatedEvents.length > 0 ? (
       <div className="space-y-4">
@@ -242,7 +260,6 @@ function Shome() {
     )}
   </section>
 </div>
-
 
         <Footer />
       </div>

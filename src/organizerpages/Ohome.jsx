@@ -16,10 +16,25 @@ function Ohome() {
   const [organizerId, setOrganizerId] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/", { replace: true });
+      
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function () {
+        navigate("/");
+      };
+      window.onpushstate = function () {
+        navigate("/");
+      };
+    } else {
+      window.onpopstate = null;
+      window.onpushstate = null;  
+    }
+
     AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
 
     let storedOrganizerId = localStorage.getItem("organizerId");
-
     if (!storedOrganizerId || storedOrganizerId === "null" || storedOrganizerId === "undefined") {
       console.error(" No valid organizer ID found. Please log in again.");
       setError("Organizer ID not found. Please log in again.");
@@ -89,14 +104,14 @@ function Ohome() {
 
         {/* Review and Approve Proposals Card */}
         <Link to="/revappro" className="w-full flex justify-center">
-          <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all" data-aos="fade-up">
+          <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all">
             <h2 className="text-2xl font-bold text-blue-900">Review and Approve Proposals</h2>
           </div>
         </Link>
 
         {/* Approved and Rejected Proposals Card */}
         <Link to="/approreg" className="w-full flex justify-center">
-          <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all" data-aos="fade-up">
+          <div className="max-w-lg bg-white shadow-lg rounded-lg p-8 flex flex-col items-center cursor-pointer hover:shadow-xl transition-all">
             <h2 className="text-2xl font-bold text-slate-600">Approved and Rejected Proposals</h2>
           </div>
         </Link>
@@ -104,8 +119,6 @@ function Ohome() {
 
       {/* Spacing between sections */}
       <div className="mt-12"></div>
-
-
 
  {/* Upcoming Events Header */}
  <h2 className="text-6xl font-bold text-center text-white mt-20 mb-8" data-aos="fade-up">
@@ -126,7 +139,7 @@ function Ohome() {
       {!loading && !error && upcomingEvents.length > 0 ? (
         <div className="transform scale-85 flex flex-col space-y-6 justify-center" data-aos="fade-up">
           {upcomingEvents.map((event) => (
-            <div key={event._id} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center">
+            <div key={event._id} className="w-full bg-white shadow-lg rounded-full py-4 px-6 mx-auto flex justify-between items-center" data-aos="fade-up">
               <div className="flex-1 text-left">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">{event.ename}</h2>
               </div>
