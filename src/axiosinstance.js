@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: 'https://spark2025.onrender.com',
- // withCredentials: true, 
+  withCredentials: true, 
 });
 
 axiosInstance.interceptors.request.use(
