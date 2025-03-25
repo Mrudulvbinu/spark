@@ -1,30 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import img from "/src/assets/img3.jpg"; // Background Image
-import Headerbar from "/src/components/headerbar.jsx"; // Header Component
-import Navbar from "/src/components/navbar.jsx"; // Navbar Component
-import Footer from "/src/components/footer.jsx"; // Footer Component
+import minimal from "/src/assets/img4.jpeg";
+import Headerbar from "/src/components/headerbar.jsx";
+import Navbar from "/src/components/navbar.jsx";
+import Footer from "/src/components/footer.jsx";
 
 function Revappro() {
   return (
-    <div className="relative">
-      <div className="absolute inset-0 z-[-1]">
-        <div
-          className="h-full w-full bg-cover bg-center bg-fixed"
-          style={{
-            backgroundImage: `url(${img})`,
-          }}
-        >
-          <div className="absolute inset-0 bg-black opacity-30"></div>
-        </div>
-      </div>
+    <div className="relative text-black">
+             <div className="absolute inset-0 z-[-1]">
+               <div 
+                 className="h-full w-full bg-cover bg-center" 
+                 style={{ backgroundImage: `url(${minimal})` }}
+               >
+                 <div className="absolute inset-0 bg-white/70"></div>
+               </div>
+             </div>
 
       {/* Header and Navbar */}
       <div className="w-full"><Headerbar /></div>
       <div className="w-full"><Navbar /></div>
 
       {/* Page Title */}
-      <h2 className="text-5xl font-bold text-center text-white mt-10 mb-4">Review and Approve Project Proposals</h2>
+      <h2 className="text-5xl font-bold text-center text-black mt-10 mb-4">Review and Approve Project Proposals</h2>
 
       {/* Inbox Section */}
       <div className="transform scale-85 flex flex-col items-center space-y-2 w-full max-w-3xl mx-auto">

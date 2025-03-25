@@ -191,7 +191,7 @@ const Login = () => {
           </form>
         </div>
 
-        <img src={logo} alt="Logo" className="absolute bottom-5 right-5 w-20 h-auto" />
+        <img src={logo} alt="Logo" className="absolute bottom-10 right-5 w-50 h-auto" />
       </div>
     </div>
   );

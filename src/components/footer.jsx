@@ -48,8 +48,9 @@ const Footer = () => {
 
       </div>
 
-      {/* Underline */}
-      <div className="w-180 h-px bg-black mt-4 mb-4 mx-auto"></div>
+    {/* Underline */}
+<div className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/3 h-px bg-black mt-4 mb-4 mx-auto"></div>
+
 
       {/* Bottom Section */}
       <div className="text-center text-black">

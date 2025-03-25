@@ -119,7 +119,7 @@ const Regist = () => {
           </form>
         </div>
 
-        <img src={logo} alt="Logo" className="absolute bottom-5 right-5 w-45 h-auto" />
+        <img src={logo} alt="Logo" className="absolute bottom-10 right-5 w-50 h-auto" />
       </div>
     </div>
   );

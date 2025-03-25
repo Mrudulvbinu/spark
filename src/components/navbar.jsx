@@ -29,13 +29,13 @@ const Navbar = () => {
           </li>
     
           <li>
-            <ScrollLink to="contact" smooth={true} duration={1500} className="cursor-pointer hover:text-green-600">
+            <ScrollLink to="contact" smooth={true} duration={1500} className="font-semibold cursor-pointer hover:text-red-600">
               Contact
             </ScrollLink>
           </li>
 
           <li>
-            <button onClick={handleLogout} className="text-red-600 hover:text-red-800 font-semibold">
+            <button onClick={handleLogout} className=" hover:text-red-600 font-semibold">
               Logout
             </button>
           </li>
