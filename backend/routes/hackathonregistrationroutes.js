@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors');
 const Hackathon = require('../modules/hackathon');
 const RegisteredHackathon = require('../modules/registeredhackathon');
 const mongoose = require("mongoose");
@@ -8,14 +7,6 @@ const mongoose = require("mongoose");
 const {
   getHackathonRegistrations,
 } = require('../controllers/registrationcontroller');
-
-app.use(
-  cors({
-    origin: ["https://spark25.onrender.com", "http://localhost:5173"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
 
 
 // Unified Registration Endpoint for Solo and Team Hackathons
