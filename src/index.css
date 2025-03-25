@@ -33,6 +33,13 @@
   }
 }
 
+@font-face {
+  font-family: 'Aristotelica Display';
+  src:url('/src/assets/Aristotelica.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .animate-fade-zoom {
   animation: fadeZoomIn 0.3s ease forwards;
 }

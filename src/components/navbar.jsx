@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 w-full bg-transparent backdrop-blur-md text-black dark:text-white shadow-md p-2 sm:p-4" style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }}>
       <div className="container mx-auto flex justify-between items-center">
         <div className="logo">
-          <img src={spark} alt="Spark Venture Logo" className="w-40 h-auto" />
+          <img src={spark} alt="Spark Venture Logo" className="w-50 h-auto" />
         </div>
         <ul className="flex space-x-4 sm:space-x-6 text-red-800 text-sm sm:text-base">
           <li>

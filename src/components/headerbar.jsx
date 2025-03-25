@@ -9,8 +9,8 @@ const Headerbar = () => {
         alt="LOGO" 
         className="h-auto w-60 sm:w-70 md:w-80 lg:w-90 xl:w-100 max-w-full" 
       />
-        <p className="text-sm sm:text-base text-center px-4">
-        Welcome to the Spark Venture. Register now and join the innovation!</p>
+        <p className="text-lg sm:text-xl text-center px-6 "style={{ fontFamily: 'Aristotelica Display, sans-serif' }}>
+        Welcome to Sparkventure. Register now and join the innovation!</p>
     </header>
   );
 };
