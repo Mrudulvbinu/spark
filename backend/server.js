@@ -17,9 +17,6 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(spark, "../src/dist")));
-
-
 app.use(express.json());
 
 mongoose
