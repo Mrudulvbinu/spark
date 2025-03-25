@@ -17,6 +17,9 @@ app.use(
   })
 );
 
+app.use(express.static(path.join(spark, "../src/dist")));
+
+
 app.use(express.json());
 
 mongoose
@@ -47,6 +50,10 @@ app.use("/api/registeredhackathon", registeredhackathonRoutes);
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
 
