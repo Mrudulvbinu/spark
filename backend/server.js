@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const path = require("path");
+
 
 dotenv.config();
 
@@ -40,6 +42,12 @@ app.use("/api/hackathons", hackathonroutes);
 
 const registeredhackathonRoutes = require("./routes/hackathonregistrationroutes");
 app.use("/api/registeredhackathon", registeredhackathonRoutes);
+
+
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 
 
 app.use((req, res) => {
