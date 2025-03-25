@@ -48,13 +48,11 @@ app.use("/api/registeredhackathon", registeredhackathonRoutes);
 
 
 app.use(express.static(path.join(__dirname, "../dist")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/index.html"));
-});
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/index.html"));
+    res.sendFile(path.join(__dirname, "../dist", "index.html"));
 });
+
 
 
 app.use((req, res) => {
