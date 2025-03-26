@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://spark2025.onrender.com/api',
+  baseURL: 'https://spark25.onrender.com/api',
   withCredentials: true, 
 });
 
