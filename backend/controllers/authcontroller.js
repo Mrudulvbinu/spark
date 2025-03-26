@@ -19,7 +19,7 @@ const registerStudent = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new StudentUser({ name, email, username, password: hashedPassword, userType: "student" });
     await newUser.save();
-    res.status(201).json({ success: true, message: "Student registered successfully!", studentId: newUser._id  // ✅ Send organizerId back 
+    res.status(201).json({ success: true, message: "Student registered successfully!", studentId: newUser._id  
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -76,8 +76,8 @@ const login = async (req, res) => {
       success: true,
       message: "Login successful!",
       token,
-      studentId: user.userType === "student" ? user._id :null, // ✅ Send `studentId` on login
-      organizerId: user.userType === "organizer" ? user._id : null,  // ✅ Send `organizerId` on login
+      studentId: user.userType === "student" ? user._id :null, 
+      organizerId: user.userType === "organizer" ? user._id : null, 
     });
   } catch (error) {
     console.error("Error logging in user:", error);

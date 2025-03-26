@@ -18,8 +18,8 @@ router.use(
   })
 );
 
-router.post("/user/register/student", registerStudent);
-router.post("/user/register/organizer", registerOrganizer);
+router.post("/register/student", registerStudent);
+router.post("/register/organizer", registerOrganizer);
 router.post("/login", login);
 router.post("/admin/login", adminLogin);
 
