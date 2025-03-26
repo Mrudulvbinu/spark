@@ -40,7 +40,7 @@ const Regist = () => {
     };
 
     try {
-      const endpoint = userType === "student" ? "https://spark2025.onrender.com/api/user/register/student" : "https://spark2025.onrender.com/api/user/register/organizer";
+      const endpoint = userType === "student" ? "/user/register/student" : "https://spark2025.onrender.com/api/user/register/organizer";
       const response = await axiosInstance.post(endpoint, userData);
       setSuccessMessage(response.data.message);
       setTimeout(() => navigate("/"), 2000);
