@@ -53,8 +53,8 @@ exports.getHackathonRegistrations = async (req, res) => {
 
 exports.getStudentHackathons = async (req, res) => {
     try {
-        const email = req.user.email; // Extract email from token
-        const { type } = req.query; // Expect type="upcoming" or "participated"
+        const email = req.user.email; 
+        const { type } = req.query; 
 
         const registrations = await RegisteredHackathon.find({ leaderEmail: email }).populate('hackathonId');
 

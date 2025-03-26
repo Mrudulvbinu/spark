@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const path = require("path");
 
 
 dotenv.config();
@@ -13,6 +12,7 @@ app.use(
   cors({
     origin: ["https://spark25.onrender.com", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
@@ -43,12 +43,6 @@ app.use("/api/hackathons", hackathonroutes);
 const registeredhackathonRoutes = require("./routes/hackathonregistrationroutes");
 app.use("/api/registeredhackathon", registeredhackathonRoutes);
 
-
-
-app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/hackathon", hackathonroutes);
-app.use("/api/registeredhackathon", registeredhackathonRoutes);
 
 
 

@@ -22,7 +22,7 @@ import Ahome from './adminpages/Ahome.jsx';
 
 // Other Pages
 import About from './about.jsx';
-import NotFound from './components/NotFound'; // Catch-all page for undefined routes
+import NotFound from './components/NotFound'; 
 
 const App = () => {
   return (

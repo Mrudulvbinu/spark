@@ -180,7 +180,7 @@ const Login = () => {
             {!isAdminLogin && (
               <div className="text-center mt-4">
                 <p className="text-gray-700">
-                  New User? <a href="/regist" className="text-blue-500 hover:text-blue-700 font-semibold">Register Here</a>
+                  New User? <a href="/register" className="text-blue-500 hover:text-blue-700 font-semibold">Register Here</a>
                 </p>
               </div>
             )}

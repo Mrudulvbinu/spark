@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../axiosinstance";
 import { useNavigate, useParams } from "react-router-dom";
 import vid1 from "/src/assets/vid1.mp4";
@@ -18,8 +18,8 @@ const Vregpg = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const studentId = localStorage.getItem('studentId'); // Get student ID from localStorage
-    console.log("Student ID from localStorage:", studentId); // 🔍 Check if studentId is null
+    const studentId = localStorage.getItem('studentId');
+    console.log("Student ID from localStorage:", studentId); 
 
     if (!studentId || studentId === 'null') {
       alert("Student ID is missing. Please log in again.");
