@@ -44,6 +44,14 @@ const registeredhackathonRoutes = require("./routes/hackathonregistrationroutes"
 app.use("/api/registeredhackathon", registeredhackathonRoutes);
 
 
+
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/hackathon", hackathonroutes);
+app.use("/api/registeredhackathon", registeredhackathonRoutes);
+
+
+
 app.use(express.static(path.join("../dist"))); 
 
 app.get("*", (req, res) => {
