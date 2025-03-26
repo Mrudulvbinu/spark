@@ -30,7 +30,7 @@ const App = () => {
       <Routes>
         {/* Authentication Routes */}
         <Route path="/" element={<Login />} />
-        <Route path="/regist" element={<Regist />} />
+        <Route path="/register" element={<Regist />} />
 
         {/* General Routes */}
         <Route path="/about" element={<About />} />
