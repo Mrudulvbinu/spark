@@ -40,7 +40,7 @@ const Regist = () => {
     };
 
     try {
-      const endpoint = userType === "student" ? "/register/student" : "/register/organizer";
+      const endpoint = userType === "student" ? "/user/register/student" : "/user/register/organizer";
       const response = await axiosInstance.post(endpoint, userData);
       setSuccessMessage(response.data.message);
       setTimeout(() => navigate("/"), 2000);
