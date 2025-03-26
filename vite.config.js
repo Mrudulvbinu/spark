@@ -9,5 +9,9 @@ export default defineConfig({
     port: 5173,  // or your desired port
     open: true,
   },
+  build: {
+    outDir: "dist",
+  },
+  base: "/", 
   plugins: [react(),tailwindcss()],
 });
