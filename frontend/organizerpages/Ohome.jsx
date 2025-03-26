@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from "../axiosinstance"; 
-import img from "/src/assets/img4.jpeg";
-import Headerbar from "/src/components/headerbar.jsx";
-import Navbar from "/src/components/navbar.jsx";
-import Footer from "/src/components/footer.jsx";
+import img from "/frontend/assets/img4.jpeg";
+import Headerbar from "/frontend/components/headerbar.jsx";
+import Navbar from "/frontend/components/navbar.jsx";
+import Footer from "/frontend/components/footer.jsx";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -13,7 +13,7 @@ function Ohome() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
-  const [organizerId, setOrganizerId] = useState(null);
+  const [setOrganizerId] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import vid1 from "/src/assets/vid1.mp4";
-import logo from "/src/assets/sparkventure.svg";
+import vid1 from "/frontend/assets/vid1.mp4";
+import logo from "/frontend/assets/sparkventure.svg";
 import axiosInstance from "./axiosinstance";
 
 const Regist = () => {

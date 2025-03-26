@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../axiosinstance";
-import minimal from "/src/assets/img4.jpeg";
+import minimal from "/frontend/assets/img4.jpeg";
 
 const RegStud = () => {
   const { hackathonId } = useParams();  

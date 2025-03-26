@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import img from "/src/assets/img3.jpg";
-import Headerbar from "/src/components/headerbar.jsx";
-import Navbar from "/src/components/navbar.jsx";
-import Footer from "/src/components/footer.jsx";
+import img from "/frontend/assets/img3.jpg";
+import Headerbar from "/frontend/components/headerbar.jsx";
+import Navbar from "/frontend/components/navbar.jsx";
+import Footer from "/frontend/components/footer.jsx";
 import axiosInstance from "../axiosinstance";
 import { useNavigate } from "react-router-dom";
 

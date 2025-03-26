@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../axiosinstance";
 import { useNavigate, useParams } from "react-router-dom";
-import vid1 from "/src/assets/vid1.mp4";
-import logo from "/src/assets/sparkventure.svg";
-import Header from "/src/components/header.jsx";
+import vid1 from "/frontend/assets/vid1.mp4";
+import logo from "/frontend/assets/sparkventure.svg";
+import Header from "/frontend/components/header.jsx";
 
 const Vregpg = () => {
   useEffect(() => {

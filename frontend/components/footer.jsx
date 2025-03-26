@@ -3,7 +3,7 @@ import fb from '../assets/fb.svg';
 import insta from '../assets/insta.svg';
 import mail from '../assets/mail.svg';
 import c from '../assets/c.svg';
-import spark from "/src/assets/sparkventure.svg";
+import spark from "../assets/sparkventure.svg";
 
 
 const Footer = () => {

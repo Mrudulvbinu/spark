@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import minimal from "/src/assets/img4.jpeg";
-import Footer from "/src/components/footer.jsx";
-import homeIcon from "/src/assets/homebtn.svg";
+import minimal from "/frontend/assets/img4.jpeg";
+import Footer from "/frontend/components/footer.jsx";
+import homeIcon from "/frontend/assets/homebtn.svg";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 

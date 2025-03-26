@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Headerbar from "/src/components/headerbar.jsx";
-import Navbar from "/src/components/navbar.jsx";
-import Footer from "/src/components/footer.jsx";
-import front from "/src/assets/front.png";
+import Headerbar from "/frontend/components/headerbar.jsx";
+import Navbar from "/frontend/components/navbar.jsx";
+import Footer from "/frontend/components/footer.jsx";
+import front from "/frontend/assets/front.png";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axiosInstance from '../axiosinstance';

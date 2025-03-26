@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import minimal from "/src/assets/img4.jpeg";
-import Headerbar from "/src/components/headerbar.jsx";
-import Navbar from "/src/components/navbar.jsx";
-import Footer from "/src/components/footer.jsx";
+import minimal from "/frontend/assets/img4.jpeg";
+import Headerbar from "/frontend/components/headerbar.jsx";
+import Navbar from "/frontend/components/navbar.jsx";
+import Footer from "/frontend/components/footer.jsx";
 
 function Revappro() {
   return (
